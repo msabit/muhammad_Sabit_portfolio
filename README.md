@@ -11,7 +11,7 @@ This repository is home to a simple, fully functional Muhammad Sabit portfolio w
 Clone the project
 
 ```bash
-  git clone https://github.com/sohomofficial/react-portfolio.git
+ https://github.com/msabit/muhammad_Sabit_portfolio
 ```
 
 Go to the project directory
