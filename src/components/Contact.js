@@ -1,11 +1,38 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    message: "",
+  });
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Create email subject and body
+    const subject = `Portfolio Contact from ${formData.firstName} ${formData.lastName}`;
+    const body = `Name: ${formData.firstName}`;
+
+    // Open email client with pre-filled data
+    window.location.href = `mailto:muhammadsabit@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+  };
+
   return (
     <div className="py-24 sm:py-32" id="contact">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -16,15 +43,14 @@ export default function Contact() {
           </p>
         </div>
         <form
-          action=""
-          method="POST"
+          onSubmit={handleSubmit}
           className="mx-auto mt-16 max-w-xl sm:mt-20"
           data-aos="zoom-in"
         >
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
             <div>
               <label
-                htmlFor="first-name"
+                htmlFor="firstName"
                 className="block text-sm font-semibold leading-6"
               >
                 First name
@@ -33,8 +59,10 @@ export default function Contact() {
                 <input
                   type="text"
                   required
-                  name="first-name"
-                  id="first-name"
+                  name="firstName"
+                  id="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
                   autoComplete="given-name"
                   className="block bg-transparent w-full rounded-md border-0 px-3.5 py-2 text-current ring-1 ring-inset ring-base-content focus:ring-2 focus:ring-inset focus:ring-current sm:text-sm sm:leading-6"
                 />
@@ -42,7 +70,7 @@ export default function Contact() {
             </div>
             <div>
               <label
-                htmlFor="last-name"
+                htmlFor="lastName"
                 className="block text-sm font-semibold leading-6"
               >
                 Last name
@@ -51,8 +79,10 @@ export default function Contact() {
                 <input
                   type="text"
                   required
-                  name="last-name"
-                  id="last-name"
+                  name="lastName"
+                  id="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
                   autoComplete="family-name"
                   className="block bg-transparent w-full rounded-md border-0 px-3.5 py-2 text-current ring-1 ring-inset ring-base-content focus:ring-2 focus:ring-inset focus:ring-current sm:text-sm sm:leading-6"
                 />
@@ -71,6 +101,8 @@ export default function Contact() {
                   required
                   name="email"
                   id="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   autoComplete="email"
                   className="block bg-transparent w-full rounded-md border-0 px-3.5 py-2 text-current ring-1 ring-inset ring-base-content focus:ring-2 focus:ring-inset focus:ring-current sm:text-sm sm:leading-6"
                 />
@@ -89,8 +121,9 @@ export default function Contact() {
                   required
                   id="message"
                   rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
                   className="block bg-transparent w-full rounded-md border-0 px-3.5 py-2 text-current ring-1 ring-inset ring-base-content focus:ring-2 focus:ring-inset focus:ring-current sm:text-sm sm:leading-6"
-                  defaultValue={""}
                 />
               </div>
             </div>

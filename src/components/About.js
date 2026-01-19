@@ -8,20 +8,21 @@ import {
 } from "@heroicons/react/20/solid";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import SabitImage from "../assets/Sabit.png";
 const features = [
   {
-    name: "Age:",
-    description: "18 years old",
+    name: "Date of Birth:",
+    description: "February 28th, 1997",
     icon: CalendarIcon,
   },
   {
     name: "Email:",
-    description: "name@example.com",
+    description: "muhammadsabit@gmail.com",
     icon: AtSymbolIcon,
   },
   {
     name: "Location:",
-    description: "India, Earth",
+    description: "Islamabad, Pakistan",
     icon: MapPinIcon,
   },
 ];
@@ -44,23 +45,24 @@ export default function About() {
                 About Me
               </p>
               <p className="mt-6 text-lg leading-8" data-aos="fade-right">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
-                suscipit lobortis nisi, consequat semper lacus tempor sit amet.
-                Sed elit orci, pretium sed velit sit amet, venenatis pretium
-                magna. Nam pharetra dictum urna, non vestibulum mauris vulputate
-                ut. Sed eros nisi, dapibus vitae consequat non, mollis et
-                tortor. Maecenas bibendum nunc eu cursus maximus. Fusce
-                ultricies ornare neque, vel varius libero euismod eget. Nulla
-                sodales blandit lacus, id maximus quam interdum in. Morbi eu
-                velit ut mi semper sollicitudin finibus aliquam nisi.
-                Pellentesque habitant morbi tristique senectus et netus et
-                malesuada fames ac turpis egestas. Ut accumsan faucibus urna vel
-                placerat. Donec euismod dui enim, tincidunt suscipit mauris
-                lacinia vel. Fusce eget risus eget leo euismod porta. Aliquam
-                dapibus sapien vitae eros pulvinar, in auctor ligula porta. Nam
-                ac porttitor risus, nec blandit nulla. Nam erat erat, venenatis
-                quis scelerisque nec, rhoncus id mi. Suspendisse molestie nibh
-                purus, quis semper tellus pulvinar eget.
+                I am an innovative React Native Mobile Engineer with over 5
+                years of professional experience designing, developing, and
+                delivering high-performance mobile applications for both iOS and
+                Android. Throughout my career, I have successfully shipped 15+
+                complex apps to the App Store and Play Store, ranging from
+                consumer-facing products to enterprise solutions. I have deep
+                expertise in TypeScript, scalable app architecture, custom
+                native modules, and performance optimization, with a strong
+                focus on building clean, maintainable, and reusable code. I am
+                proficient in CI/CD pipelines, automated testing, and debugging,
+                ensuring smooth deployments and minimal downtime for production
+                apps. Beyond technical skills, I excel at translating complex
+                business requirements into functional and efficient solutions,
+                collaborating effectively with cross-functional teams, and
+                mentoring junior developers to strengthen team capability. My
+                goal is to help clients and organizations bring their ideas to
+                life efficiently, while delivering apps that are reliable, fast,
+                and user-friendly.{" "}
               </p>
             </div>
           </div>
@@ -70,9 +72,9 @@ export default function About() {
           data-aos="fade-left"
         >
           <img
-            className="w-[38rem] ring-2 ring-base-300 max-w-none rounded-xl shadow-xl sm:w-[57rem]"
-            src="https://fastly.picsum.photos/id/473/5000/3333.jpg?hmac=OrrE0aUqLbLCJ9PAlSn0dIRHjOnuuuev9IjuO3PGZf8"
-            alt="Person"
+            className="w-full max-w-lg h-auto object-cover ring-2 ring-base-300 rounded-xl shadow-xl lg:max-w-xl"
+            src={SabitImage}
+            alt="Muhammad Sabit - React Native Mobile Engineer"
           />
         </div>
       </div>
@@ -81,22 +83,63 @@ export default function About() {
           <div className="text-base leading-7">
             <div className="grid gap-x-6 sm:grid-cols-2">
               <div
-                className="ring-2 ring-base-300 bg-base-200 rounded-2xl mt-10 p-5 shadow-xl"
+                className="ring-2 ring-base-300 bg-base-200 rounded-2xl mt-10 p-6 shadow-xl"
                 data-aos="zoom-in"
               >
                 <BriefcaseIcon className="h-5 w-5 mx-auto" aria-hidden="true" />
-                <h2 className=" text-2xl text-center font-bold tracking-tight">
-                  Experience
+                <h2 className="text-2xl text-center font-bold tracking-tight mb-6">
+                  Professional Experience
                 </h2>
-                <p className="mt-3 list-item list-inside">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
-                <p className="mt-3 list-item list-inside">
-                  Vestibulum vitae augue sit amet ex laoreet euismod sed eu dui.
-                </p>
-                <p className="mt-3 list-item list-inside">
-                  Fusce et leo nec elit mollis sollicitudin.
-                </p>
+
+                {/* PhenTech */}
+                <div className="mb-4">
+                  <h3 className="font-bold text-base">
+                    Senior React Native Developer
+                  </h3>
+                  <p className="text-sm opacity-80">
+                    PhenTech Pvt | Dec 2023 – Present
+                  </p>
+                </div>
+
+                {/* Neural Metrics */}
+                <div className="mb-4">
+                  <h3 className="font-bold text-base">
+                    React Native Consultant
+                  </h3>
+                  <p className="text-sm opacity-80">
+                    Neural Metrics Pvt | June 2023 – Feb 2024
+                  </p>
+                </div>
+
+                {/* InfinityBits */}
+                <div className="mb-4">
+                  <h3 className="font-bold text-base">
+                    React Native Developer
+                  </h3>
+                  <p className="text-sm opacity-80">
+                    InfinityBits | April 2023 – Dec 2023
+                  </p>
+                </div>
+
+                {/* EConceptions */}
+                <div className="mb-4">
+                  <h3 className="font-bold text-base">
+                    React Native Developer
+                  </h3>
+                  <p className="text-sm opacity-80">
+                    EConceptions Pvt | April 2022 – March 2023
+                  </p>
+                </div>
+
+                {/* TechMelo */}
+                <div>
+                  <h3 className="font-bold text-base">
+                    React Native Developer
+                  </h3>
+                  <p className="text-sm opacity-80">
+                    TechMelo | Feb 2021 – March 2022
+                  </p>
+                </div>
               </div>
               <div
                 className="ring-2 ring-base-300 bg-base-200 rounded-2xl mt-10 p-5 shadow-xl"
@@ -110,17 +153,16 @@ export default function About() {
                   Education
                 </h2>
                 <p className="mt-3 list-item list-inside">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  bachelor in computer science(BSCS) from PMAS University
+                  RawalPindi
                 </p>
                 <p className="mt-3 list-item list-inside">
-                  Vestibulum vitae augue sit amet ex laoreet euismod sed eu dui.
-                </p>
-                <p className="mt-3 list-item list-inside">
-                  Fusce et leo nec elit mollis sollicitudin.
+                  Intermediate in Computer Science(ICS) from Punjab Group of
+                  Colleges
                 </p>
               </div>
             </div>
-            <dl
+            {/* <dl
               className="mt-10 space-y-8 text-base leading-7 lg:max-w-none"
               data-aos="fade-right"
             >
@@ -136,7 +178,7 @@ export default function About() {
                   <dd className="inline">{feature.description}</dd>
                 </div>
               ))}
-            </dl>
+            </dl> */}
           </div>
         </div>
       </div>
