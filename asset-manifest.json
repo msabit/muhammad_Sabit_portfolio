@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/muhammad_Sabit_portfolio/static/css/main.34ffbf3d.css",
+    "main.js": "/muhammad_Sabit_portfolio/static/js/main.b58dea40.js",
+    "static/media/Sabit.png": "/muhammad_Sabit_portfolio/static/media/Sabit.c9e06376459d740ace77.png",
+    "static/media/loot8.png": "/muhammad_Sabit_portfolio/static/media/loot8.84f01421d68d1fa2ba7c.png",
+    "static/media/profile.png": "/muhammad_Sabit_portfolio/static/media/profile.057220ef207687039ea8.png",
+    "static/media/MuhammadSabit_Resume.pdf": "/muhammad_Sabit_portfolio/static/media/MuhammadSabit_Resume.3d86c64e2345252b36d1.pdf",
+    "index.html": "/muhammad_Sabit_portfolio/index.html",
+    "main.34ffbf3d.css.map": "/muhammad_Sabit_portfolio/static/css/main.34ffbf3d.css.map",
+    "main.b58dea40.js.map": "/muhammad_Sabit_portfolio/static/js/main.b58dea40.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.34ffbf3d.css",
+    "static/js/main.b58dea40.js"
+  ]
+}
