@@ -6,15 +6,6 @@ This repository is home to a simple, fully functional Muhammad Sabit portfolio w
 - Gain inspiration for their own portfolio design.
 - Understand basic React components and state management.
 
-![3-devices-black](https://github.com/sohomofficial/react-portfolio/assets/93909798/1bb8d209-1a2e-4aa5-ab8e-ff6fb93a7a1e)
-
-## Features
-
-- Light/dark mode toggle
-- Smooth Scrolling
-- Scroll Animations
-- Responsiveness
-
 ## Run Locally
 
 Clone the project
