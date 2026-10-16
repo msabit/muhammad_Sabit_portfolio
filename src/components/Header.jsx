@@ -7,34 +7,37 @@ import ResumePDF from "../assets/MuhammadSabit_Resume.pdf";
 
 const THEME_COLORS = { dark: "#070b16", light: "#eef1f8" };
 
+// The icon follows html[data-theme] through CSS, so the pre-rendered HTML is right
+// for either theme before React knows which one is active.
 function ThemeToggle({ theme, onToggle }) {
-  const isDark = theme === "dark";
   return (
     <button
       type="button"
       onClick={onToggle}
-      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      aria-label="Dark theme"
+      aria-pressed={theme === null ? undefined : theme === "dark"}
       className="btn-icon"
     >
-      {isDark ? (
-        <SunIcon className="h-5 w-5" aria-hidden="true" />
-      ) : (
-        <MoonIcon className="h-5 w-5" aria-hidden="true" />
-      )}
+      <SunIcon className="when-dark h-5 w-5" aria-hidden="true" />
+      <MoonIcon className="when-light h-5 w-5" aria-hidden="true" />
     </button>
   );
 }
 
 export default function Header() {
-  // index.html sets data-theme before first paint; read it back as the start value.
-  const [theme, setTheme] = useState(
-    () => document.documentElement.getAttribute("data-theme") || "dark",
-  );
+  // index.html sets data-theme before first paint. State starts empty so the server
+  // render and the first client render match, then picks up the real value.
+  const [theme, setTheme] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const active = useActiveSection(navigation.map((n) => n.id));
 
   useEffect(() => {
+    setTheme(document.documentElement.getAttribute("data-theme") || "dark");
+  }, []);
+
+  useEffect(() => {
+    if (theme === null) return;
     document.documentElement.setAttribute("data-theme", theme);
     document
       .querySelectorAll('meta[name="theme-color"]')
@@ -61,7 +64,7 @@ export default function Header() {
     };
   }, []);
 
-  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
+  const toggleTheme = () => setTheme((t) => ((t ?? "dark") === "dark" ? "light" : "dark"));
 
   return (
     <>

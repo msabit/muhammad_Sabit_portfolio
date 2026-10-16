@@ -520,6 +520,13 @@
   }
 }
 
+/* The page is pre-rendered, so without JavaScript (no html.js) AOS never runs:
+   show its sections instead of leaving them at opacity 0. */
+html:not(.js) [data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 /* Subtler AOS entrance: shorter travel than the library default. */
 [data-aos="fade-up"] {
   transform: translate3d(0, 24px, 0);
@@ -566,6 +573,12 @@
   transform: scaleX(var(--scroll, 0));
   transform-origin: left;
   background: linear-gradient(90deg, rgb(var(--ambient-3)), var(--accent-strong), rgb(var(--ambient-2)));
+}
+
+/* Theme toggle icon: shown by the active theme, not by React state. */
+:root[data-theme="light"] .when-dark,
+:root:not([data-theme="light"]) .when-light {
+  display: none;
 }
 
 /* Cards whose link stretches over them show keyboard focus on the whole card. */

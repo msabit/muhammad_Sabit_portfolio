@@ -25,6 +25,13 @@ npm run dev
 | `npm test`        | Run unit tests (Vitest)                      |
 | `npm run deploy`  | Build and publish `dist/` to GitHub Pages    |
 
+## Pre-rendering
+
+`npm run build` renders the page to static HTML at build time
+(`src/entry-server.jsx` + `scripts/prerender.js`), and the browser hydrates it. The page
+paints before JavaScript loads and reads fine with JavaScript off. Components must not
+read `window`, `document` or `localStorage` while rendering: do that in effects.
+
 ## Deploying
 
 Every push to `main` runs lint, tests and the build on GitHub Actions, then publishes

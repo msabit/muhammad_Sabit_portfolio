@@ -155,10 +155,13 @@ function ProjectCard({ project, index }) {
 }
 
 export default function Projects() {
-  const [filter, setFilter] = useState(initialFilter);
+  // Starts at "all" on the server and first client render; the URL's filter is
+  // applied right after hydration.
+  const [filter, setFilter] = useState("all");
 
   // Keep the filter in the URL so a filtered list can be shared; follow back/forward.
   useEffect(() => {
+    setFilter(initialFilter());
     const onPop = () => setFilter(initialFilter());
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);

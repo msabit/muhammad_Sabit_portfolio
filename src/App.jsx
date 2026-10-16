@@ -23,9 +23,16 @@ export default function App() {
       disable: () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     });
 
-    // The page renders after the browser's own jump to #hash, so do that jump now.
+    // Land #hash links on their section: once now, and again after the web fonts
+    // swap in, since that reflows the text above the target.
     const id = decodeURIComponent(window.location.hash.slice(1));
-    if (id) document.getElementById(id)?.scrollIntoView({ behavior: "instant" });
+    const jump = () => document.getElementById(id)?.scrollIntoView({ behavior: "instant" });
+    if (id) {
+      jump();
+      document.fonts?.ready.then(() => {
+        if (window.location.hash.slice(1) === id && window.scrollY > 0) jump();
+      });
+    }
   }, []);
 
   return (
