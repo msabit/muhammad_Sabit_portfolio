@@ -1,7 +1,9 @@
 import { coreTech, skillCategories } from "../data/portfolio";
 import SectionHeading from "./ui/SectionHeading";
+import { useInView } from "../hooks/useMotion";
 
 export default function Skills() {
+  const [chipsRef, chipsInView] = useInView();
   return (
     <section id="skills" aria-labelledby="skills-heading" className="section">
       <div className="container-page flex flex-col gap-12">
@@ -9,12 +11,16 @@ export default function Skills() {
           Grouped by where each tool sits in a mobile product.
         </SectionHeading>
 
-        <ul className="flex flex-wrap gap-3" aria-label="Core technologies" data-aos="fade-up">
-          {coreTech.map((tech) => (
+        <ul
+          ref={chipsRef}
+          className={`cascade flex flex-wrap gap-3 ${chipsInView ? "is-in" : ""}`}
+          aria-label="Core technologies"
+        >
+          {coreTech.map((tech, i) => (
             <li
               key={tech}
               className="glass glass-interactive px-5 py-3 font-display text-base font-semibold sm:text-lg"
-              style={{ borderRadius: "var(--radius-md)" }}
+              style={{ borderRadius: "var(--radius-md)", "--i": i }}
             >
               {tech}
             </li>

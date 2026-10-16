@@ -30,11 +30,11 @@ export default function Experience() {
         <ol className="relative flex flex-col gap-4 pl-8 sm:pl-10">
           <span
             aria-hidden="true"
-            className="absolute bottom-6 left-[0.6875rem] top-6 w-px sm:left-[0.9375rem]"
+            className="timeline-draw absolute bottom-6 left-[0.6875rem] top-6 w-px sm:left-[0.9375rem]"
             style={{ background: "linear-gradient(var(--accent), var(--glass-border) 70%, transparent)" }}
           />
           {experience.map((job, i) => (
-            <li key={`${job.company}-${job.role}`} className="relative" data-aos="fade-up" data-aos-delay={i * 60}>
+            <li key={`${job.company}-${job.role}`} className="relative" data-aos="fade-left" data-aos-delay={i * 80}>
               <span
                 aria-hidden="true"
                 className="absolute -left-8 top-7 flex h-6 w-6 items-center justify-center rounded-full border sm:-left-10 sm:h-8 sm:w-8"

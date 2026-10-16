@@ -56,6 +56,8 @@
       }
     </script>
     <script>
+      // Motion start states only apply when this runs (see "Motion" in index.css).
+      document.documentElement.classList.add("js");
       // Apply the saved theme before first paint so dark mode doesn't flash light.
       try {
         var saved = localStorage.getItem("theme");

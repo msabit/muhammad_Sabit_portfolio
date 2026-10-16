@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowTopRightOnSquareIcon, LockClosedIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { monogram, projects, projectGroups } from "../data/portfolio";
 import { readParam, withParam } from "../lib/filter";
+import { useInView } from "../hooks/useMotion";
 import SectionHeading from "./ui/SectionHeading";
 
 const INITIAL_COUNT = 6;
@@ -87,10 +88,10 @@ function linkLabel(href) {
   return href.includes("play.google.com") ? "Google Play" : "Website";
 }
 
-function ProjectCard({ project }) {
+function ProjectCard({ project, index }) {
   const live = Boolean(project.href);
   return (
-    <li className="glass glass-interactive group relative flex flex-col overflow-hidden">
+    <li className="glass glass-interactive group relative flex flex-col overflow-hidden" style={{ "--i": index }}>
       <div className="relative m-2 mb-0 aspect-[16/10] overflow-hidden" style={{ borderRadius: "calc(var(--radius-lg) - 0.5rem)" }}>
         <AppTile project={project} />
         <span
@@ -173,6 +174,7 @@ export default function Projects() {
     );
   };
   const [showAll, setShowAll] = useState(false);
+  const [listRef, listInView] = useInView();
 
   const matched = useMemo(
     () =>
@@ -206,9 +208,16 @@ export default function Projects() {
           ))}
         </div>
 
-        <ul id="project-list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
-          {displayed.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+        {/* Keyed by filter so the cards cascade in again on every filter change. */}
+        <ul
+          key={filter}
+          ref={listRef}
+          id="project-list"
+          className={`cascade grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ${listInView ? "is-in" : ""}`}
+          aria-live="polite"
+        >
+          {displayed.map((project, i) => (
+            <ProjectCard key={project.id} project={project} index={i % INITIAL_COUNT} />
           ))}
         </ul>
 

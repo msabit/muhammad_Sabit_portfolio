@@ -57,6 +57,7 @@ export default function Header() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4">
+      <div aria-hidden="true" className="scroll-progress fixed inset-x-0 top-0 h-0.5" />
       <nav
         aria-label="Global"
         className={`mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full py-2 pl-4 pr-2 transition-[background-color,border-color,box-shadow] duration-300 ${

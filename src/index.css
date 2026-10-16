@@ -389,3 +389,155 @@
     background: var(--bg-elevated);
   }
 }
+
+/* ------------------------------------------------------------------
+   Motion
+   Hidden start states only apply under html.js (set inline in index.html)
+   and only when the visitor allows motion, so content never depends on it.
+------------------------------------------------------------------- */
+:root {
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Masked line: the text rises from behind its own baseline. */
+.mask-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+.mask-line > span {
+  display: block;
+}
+
+/* Hero portrait tilts toward the pointer (values written by useTilt). */
+.tilt {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 500ms var(--ease-out);
+  will-change: transform;
+}
+
+/* Scroll progress, driven by --scroll (0–1) from usePageMotion. */
+.scroll-progress {
+  transform: scaleX(var(--scroll, 0));
+  transform-origin: left;
+  background: linear-gradient(90deg, rgb(var(--ambient-3)), var(--accent-strong), rgb(var(--ambient-2)));
+}
+
+/* Cursor spotlight on interactive glass cards (desktop mice only). */
+@media (hover: hover) and (pointer: fine) {
+  .glass-interactive:hover,
+  .glass-interactive:focus-within {
+    background: radial-gradient(
+        420px circle at var(--mx, 50%) var(--my, 0%),
+        rgb(var(--ambient-1) / 0.16),
+        transparent 65%
+      ),
+      var(--glass-2);
+  }
+}
+
+/* Arrow nudges toward where the link goes. */
+.nudge-x {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+a:hover > .nudge-x,
+button:hover > .nudge-x {
+  transform: translateX(3px);
+}
+.nudge-down {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+a:hover > .nudge-down {
+  transform: translateY(2px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-rise] {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: rise 800ms var(--ease-out) forwards;
+    animation-delay: calc(var(--i, 0) * 90ms + 120ms);
+  }
+
+  .js .mask-line > span {
+    transform: translateY(105%);
+    animation: line-up 900ms var(--ease-out) forwards;
+    animation-delay: calc(var(--i, 0) * 110ms + 150ms);
+  }
+
+  .js [data-settle] {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+    animation: rise 1100ms var(--ease-soft) 250ms forwards;
+  }
+
+  .float-a {
+    animation: float 7s ease-in-out infinite;
+  }
+  .float-b {
+    animation: float 8s ease-in-out -3.5s infinite;
+  }
+
+  /* Children cascade in once the list is in view, and again when it remounts.
+     `backwards` fill: after the cascade the cards' own hover transforms work again. */
+  .js .cascade:not(.is-in) > * {
+    opacity: 0;
+  }
+  .js .cascade.is-in > * {
+    animation: card-in 650ms var(--ease-out) backwards;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+}
+
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes line-up {
+  to {
+    transform: none;
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Timeline line draws as its section scrolls through (where supported). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .timeline-draw {
+      transform-origin: top;
+      animation: draw linear both;
+      animation-timeline: view();
+      animation-range: entry 15% cover 55%;
+    }
+  }
+}
+@keyframes draw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
