@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import Loot8Logo from "../assets/loot8.png";
+import { useState } from "react";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
+import Loot8Logo from "../assets/loot8.webp";
+
+const INITIAL_COUNT = 4;
 
 const projects = [
   {
     id: 1,
     name: "Konjae",
-    href: "#",
+    href: null,
     imageSrc:
       "https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&q=80",
     used: "React Native, Node.js, MongoDB",
@@ -18,7 +19,7 @@ const projects = [
   {
     id: 2,
     name: "POS (Tablet, Mobile)",
-    href: "#",
+    href: null,
     imageSrc:
       "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
     used: "React Native, TypeScript, SQLite",
@@ -51,7 +52,7 @@ const projects = [
   {
     id: 5,
     name: "Pharmacy",
-    href: "#",
+    href: null,
     imageSrc:
       "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80",
     used: "React Native, REST API, MySQL",
@@ -62,7 +63,7 @@ const projects = [
   {
     id: 6,
     name: "Field Services",
-    href: "#",
+    href: null,
     imageSrc:
       "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80",
     used: "React Native, Google Maps API, WebSocket",
@@ -95,7 +96,7 @@ const projects = [
   {
     id: 9,
     name: "Millennium Pharmacy",
-    href: "#",
+    href: null,
     imageSrc:
       "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=800&q=80",
     used: "React Native, Express.js, PostgreSQL",
@@ -139,7 +140,7 @@ const projects = [
   {
     id: 13,
     name: "Toyogo Kiosk",
-    href: "#",
+    href: null,
     imageSrc:
       "https://images.unsplash.com/photo-1556742111-a301076d9d18?w=800&q=80",
     used: "React, Electron, SQLite",
@@ -171,7 +172,7 @@ const projects = [
   {
     id: 16,
     name: "OPA Tag (NFC)",
-    href: "#",
+    href: null,
     imageSrc:
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
     used: "React Native, NFC Technology, Cloud Storage",
@@ -184,62 +185,89 @@ const projects = [
 export default function Projects() {
   const [showAll, setShowAll] = useState(false);
 
-  useEffect(() => {
-    AOS.init({ duration: 2000 });
-  }, []);
-
-  // Show first 8 projects or all projects based on state
-  const displayedProjects = showAll ? projects : projects.slice(0, 4);
+  const displayedProjects = showAll
+    ? projects
+    : projects.slice(0, INITIAL_COUNT);
 
   return (
-    <div id="projects">
+    <section id="projects" aria-labelledby="projects-heading">
       <div className="mx-auto max-w-2xl px-6 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:px-8">
-        <h2 className="text-lg leading-7">Browse my recent</h2>
-        <p className="mt-2 text-4xl font-bold tracking-tight sm:text-6xl">
+        <p className="text-lg leading-7">Browse my recent</p>
+        <h2
+          id="projects-heading"
+          className="mt-2 text-4xl font-bold tracking-tight sm:text-6xl text-balance"
+        >
           Projects
-        </p>
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        </h2>
+        <ul
+          id="project-list"
+          className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
+        >
           {displayedProjects.map((project) => (
-            <div
+            <li
               key={project.id}
-              className="group relative ring-2 ring-base-300 bg-base-200 rounded-2xl shadow-xl"
-              data-aos="flip-left"
+              className="group relative ring-2 ring-base-300 bg-base-200 rounded-2xl shadow-xl focus-within:ring-current"
+              data-aos="fade-up"
             >
-              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md lg:aspect-none group-hover:brightness-75 duration-300 delay-100 lg:h-80 rounded-t-2xl ">
+              <div
+                className={`aspect-square w-full overflow-hidden rounded-t-2xl lg:aspect-auto lg:h-80 ${
+                  project.href
+                    ? "group-hover:brightness-75 transition-[filter] duration-300"
+                    : ""
+                }`}
+              >
                 <img
                   src={project.imageSrc}
-                  alt={project.name}
-                  className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                  alt=""
+                  width={800}
+                  height={600}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover object-center"
                 />
               </div>
-              <div className="mt-4 flex justify-between p-4">
-                <div className="p-4">
-                  <h3 className="text-lg font-bold">
+              <div className="p-6">
+                <p className="text-xs font-semibold uppercase tracking-wide opacity-70">
+                  {project.category}
+                </p>
+                <h3 className="mt-1 text-lg font-bold break-words">
+                  {project.href ? (
                     <a
                       href={project.href}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 focus:outline-none"
                     >
                       <span aria-hidden="true" className="absolute inset-0" />
                       {project.name}
+                      <ArrowTopRightOnSquareIcon
+                        className="h-4 w-4 shrink-0"
+                        aria-hidden="true"
+                      />
+                      <span className="sr-only">(opens in new tab)</span>
                     </a>
-                  </h3>
-                  <p className="mt-1 mb-5 text-sm">{project.description}</p>
-                  <p className="text-sm font-medium">{project.used}</p>
-                </div>
+                  ) : (
+                    project.name
+                  )}
+                </h3>
+                <p className="mt-1 mb-5 text-sm">{project.description}</p>
+                <p className="text-sm font-medium">{project.used}</p>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
         <div className="mt-16 flex justify-center">
           <button
+            type="button"
             className="btn btn-outline"
-            onClick={() => setShowAll(!showAll)}
+            aria-expanded={showAll}
+            aria-controls="project-list"
+            onClick={() => setShowAll((v) => !v)}
           >
-            {showAll ? "Show Less" : "View More"}
+            {showAll ? "Show Fewer Projects" : `View All ${projects.length} Projects`}
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,39 +1,32 @@
-<h1 align="center"> Muhammad Sabit Portfolio</h1>
+<h1 align="center">Muhammad Sabit Portfolio</h1>
 
-This repository is home to a simple, fully functional Muhammad Sabit portfolio website designed specifically for aspiring frontend developers. It's an ideal starting point for anyone who wants to:
+Personal portfolio of Muhammad Sabit, Senior React Native developer. Live at
+https://msabit.github.io/muhammad_Sabit_portfolio/
 
-- Learn React by building a practical project.
-- Gain inspiration for their own portfolio design.
-- Understand basic React components and state management.
+Built with React 18, Vite, Tailwind CSS and daisyUI.
 
-## Run Locally
-
-Clone the project
+## Run locally
 
 ```bash
- https://github.com/msabit/muhammad_Sabit_portfolio
+git clone https://github.com/msabit/muhammad_Sabit_portfolio.git
+cd muhammad_Sabit_portfolio
+npm install
+npm run dev
 ```
 
-Go to the project directory
+## Scripts
 
-```bash
-  cd react-portfolio
-```
+| Command           | What it does                                 |
+| ----------------- | -------------------------------------------- |
+| `npm run dev`     | Start the dev server                         |
+| `npm run build`   | Production build to `dist/`                  |
+| `npm run preview` | Serve the production build locally           |
+| `npm run lint`    | Run ESLint                                   |
+| `npm run deploy`  | Build and publish `dist/` to GitHub Pages    |
 
-Install dependencies
+## Editing content
 
-```bash
-  npm i
-```
-
-Start the server
-
-```bash
-  npm start
-```
-
-## FAQ
-
-### Can I use this project as a template to create my own portfolio?
-
-Yes! But don't forget to add your own magic to it ✨.
+- Experience and education: `src/components/About.jsx`
+- Skills: `src/components/Skills.jsx`
+- Projects: `src/components/Projects.jsx` (set `href: null` for projects without a public link)
+- Images live in `src/assets/` as WebP; the social preview image is `public/og-image.jpg`.

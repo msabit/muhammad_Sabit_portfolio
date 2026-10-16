@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import AOS from "aos";
-import "aos/dist/aos.css";
 
 const coreMobileDevelopment = [
   {
@@ -238,25 +236,31 @@ const skillCategories = [
 export default function Skills() {
   const [showAll, setShowAll] = useState(false);
 
-  useEffect(() => {
-    AOS.init({ duration: 2000 });
-  }, []);
-
   // Show first 2 categories or all categories based on state
   const displayedCategories = showAll
     ? skillCategories
     : skillCategories.slice(0, 2);
 
   return (
-    <div className="py-24 sm:py-32" id="skills">
+    <section
+      className="py-24 sm:py-32"
+      id="skills"
+      aria-labelledby="skills-heading"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-xl leading-7">Explore my</h2>
-          <p className="mt-2 text-4xl font-bold tracking-tight sm:text-6xl">
+          <p className="text-xl leading-7">Explore my</p>
+          <h2
+            id="skills-heading"
+            className="mt-2 text-4xl font-bold tracking-tight sm:text-6xl text-balance"
+          >
             Technical Skills
-          </p>
+          </h2>
         </div>
-        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:gap-y-10">
+        <div
+          id="skill-list"
+          className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:gap-y-10"
+        >
           {displayedCategories.map((category, index) => (
             <div
               key={category.title}
@@ -264,9 +268,9 @@ export default function Skills() {
               data-aos="zoom-in"
               data-aos-delay={index * 50}
             >
-              <p className="text-2xl text-center font-bold mb-6">
+              <h3 className="text-2xl text-center font-bold mb-6">
                 {category.title}
-              </p>
+              </h3>
               <dl
                 className={`grid max-w-xl grid-cols-1 gap-x-8 gap-y-6 lg:max-w-none ${category.gridCols} lg:gap-y-6`}
               >
@@ -281,6 +285,7 @@ export default function Skills() {
                     <dd className="mt-2 text-base leading-7">
                       <progress
                         className="progress w-3/4"
+                        aria-label={`${skill.name} proficiency`}
                         value={skill.value}
                         max="100"
                       ></progress>
@@ -293,13 +298,16 @@ export default function Skills() {
         </div>
         <div className="mt-16 flex justify-center">
           <button
+            type="button"
             className="btn btn-outline"
-            onClick={() => setShowAll(!showAll)}
+            aria-expanded={showAll}
+            aria-controls="skill-list"
+            onClick={() => setShowAll((v) => !v)}
           >
-            {showAll ? "Show Less" : "View More"}
+            {showAll ? "Show Fewer Skills" : "View All Skills"}
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

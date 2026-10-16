@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { useState } from "react";
+
+const CONTACT_EMAIL = "muhammadsabit@gmail.com";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -10,9 +10,7 @@ export default function Contact() {
     message: "",
   });
 
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
+  const [opened, setOpened] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,22 +23,35 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Create email subject and body
-    const subject = `Portfolio Contact from ${formData.firstName} ${formData.lastName}`;
-    const body = `Name: ${formData.firstName}`;
+    const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+    const subject = `Portfolio Contact from ${fullName}`;
+    const body = [
+      `Name: ${fullName}`,
+      `Email: ${formData.email}`,
+      "",
+      formData.message,
+    ].join("\n");
 
-    // Open email client with pre-filled data
-    window.location.href = `mailto:muhammadsabit@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+    // No backend: hand the message to the visitor's email app, pre-filled.
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setOpened(true);
   };
 
   return (
-    <div className="py-24 sm:py-32" id="contact">
+    <section
+      className="py-24 sm:py-32"
+      id="contact"
+      aria-labelledby="contact-heading"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-xl leading-7">Get in touch</h2>
-          <p className="mt-2 text-4xl font-bold tracking-tight sm:text-6xl">
+          <p className="text-xl leading-7">Get in touch</p>
+          <h2
+            id="contact-heading"
+            className="mt-2 text-4xl font-bold tracking-tight sm:text-6xl text-balance"
+          >
             Contact Me
-          </p>
+          </h2>
         </div>
         <form
           onSubmit={handleSubmit}
@@ -64,7 +75,7 @@ export default function Contact() {
                   value={formData.firstName}
                   onChange={handleChange}
                   autoComplete="given-name"
-                  className="block bg-transparent w-full rounded-md border-0 px-3.5 py-2 text-current ring-1 ring-inset ring-base-content focus:ring-2 focus:ring-inset focus:ring-current sm:text-sm sm:leading-6"
+                  className="block bg-transparent w-full rounded-md border-0 px-3.5 py-2 text-current ring-1 ring-inset ring-base-content focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-current sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -84,7 +95,7 @@ export default function Contact() {
                   value={formData.lastName}
                   onChange={handleChange}
                   autoComplete="family-name"
-                  className="block bg-transparent w-full rounded-md border-0 px-3.5 py-2 text-current ring-1 ring-inset ring-base-content focus:ring-2 focus:ring-inset focus:ring-current sm:text-sm sm:leading-6"
+                  className="block bg-transparent w-full rounded-md border-0 px-3.5 py-2 text-current ring-1 ring-inset ring-base-content focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-current sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -104,7 +115,9 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   autoComplete="email"
-                  className="block bg-transparent w-full rounded-md border-0 px-3.5 py-2 text-current ring-1 ring-inset ring-base-content focus:ring-2 focus:ring-inset focus:ring-current sm:text-sm sm:leading-6"
+                  spellCheck={false}
+                  placeholder="you@example.com"
+                  className="block bg-transparent w-full rounded-md border-0 px-3.5 py-2 text-current ring-1 ring-inset ring-base-content focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-current sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -123,18 +136,23 @@ export default function Contact() {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className="block bg-transparent w-full rounded-md border-0 px-3.5 py-2 text-current ring-1 ring-inset ring-base-content focus:ring-2 focus:ring-inset focus:ring-current sm:text-sm sm:leading-6"
+                  className="block bg-transparent w-full rounded-md border-0 px-3.5 py-2 text-current ring-1 ring-inset ring-base-content focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-current sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
           </div>
           <div className="mt-10">
             <button type="submit" className="btn btn-outline text-sm w-full">
-              Send it
+              Open in Email App
             </button>
+            <p className="mt-3 text-sm text-center opacity-80" aria-live="polite">
+              {opened
+                ? `Your email app should now be open with this message. If not, write to ${CONTACT_EMAIL}.`
+                : "Opens your email app with this message pre-filled."}
+            </p>
           </div>
         </form>
       </div>
-    </div>
+    </section>
   );
 }

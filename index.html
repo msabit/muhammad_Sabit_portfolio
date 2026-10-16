@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1d232a" media="(prefers-color-scheme: dark)" />
+    <title>Muhammad Sabit – Senior React Native Developer</title>
+    <meta name="author" content="Muhammad Sabit" />
+    <meta
+      name="description"
+      content="Muhammad Sabit is a Senior React Native developer with 5+ years of experience and 15+ iOS and Android apps shipped to the App Store and Play Store."
+    />
+    <link rel="canonical" href="https://msabit.github.io/muhammad_Sabit_portfolio/" />
+    <meta property="og:url" content="https://msabit.github.io/muhammad_Sabit_portfolio/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Muhammad Sabit – Senior React Native Developer" />
+    <meta
+      property="og:description"
+      content="Senior React Native developer with 5+ years of experience and 15+ iOS and Android apps shipped."
+    />
+    <meta
+      property="og:image"
+      content="https://msabit.github.io/muhammad_Sabit_portfolio/og-image.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Muhammad Sabit – Senior React Native Developer" />
+    <meta
+      name="twitter:description"
+      content="Senior React Native developer with 5+ years of experience and 15+ iOS and Android apps shipped."
+    />
+    <meta
+      name="twitter:image"
+      content="https://msabit.github.io/muhammad_Sabit_portfolio/og-image.jpg"
+    />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <script>
+      // Apply the saved theme before first paint so dark mode doesn't flash light.
+      try {
+        var saved = localStorage.getItem("theme");
+        var theme =
+          saved ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    </script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
