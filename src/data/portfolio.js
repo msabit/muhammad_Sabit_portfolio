@@ -10,6 +10,7 @@ export const profile = {
     "Senior React Native developer with 5+ years of experience and 15+ apps shipped to the App Store and Play Store.",
   email: "muhammadsabit@gmail.com",
   phone: "+92 312 5003066",
+  location: "Islamabad, Pakistan",
   phoneHref: "tel:+923125003066",
 };
 
@@ -51,13 +52,6 @@ export const socialLinks = [
   },
 ];
 
-export const stats = [
-  { value: "5+", label: "Years building with React Native" },
-  { value: "15+", label: "Apps shipped to the App Store & Play Store" },
-  { value: "16", label: "Projects featured in this portfolio" },
-  { value: "5", label: "Companies & product teams" },
-];
-
 export const about = {
   paragraphs: [
     "I am an innovative React Native Mobile Engineer with over 5 years of professional experience designing, developing, and delivering high-performance mobile applications for both iOS and Android. Throughout my career, I have successfully shipped 15+ complex apps to the App Store and Play Store, ranging from consumer-facing products to enterprise solutions.",
@@ -94,19 +88,6 @@ export const experience = [
 export const education = [
   { degree: "Bachelor of Science in Computer Science (BSCS)", school: "PMAS University, Rawalpindi" },
   { degree: "Intermediate in Computer Science (ICS)", school: "Punjab Group of Colleges" },
-];
-
-// Headline technologies shown as large badges.
-export const coreTech = [
-  "React Native",
-  "React",
-  "TypeScript",
-  "JavaScript (ES6+)",
-  "Redux Toolkit",
-  "REST APIs",
-  "Firebase",
-  "Native iOS/Android Modules",
-  "CI/CD",
 ];
 
 export const skillCategories = [
@@ -146,6 +127,18 @@ export const projects = [
   { id: 14, name: "Loot8", group: "commerce", category: "NFT & Blockchain", href: "https://loot8.io/", imageSrc: Loot8Logo, contain: true, stack: ["React Native", "Blockchain", "Web3"], description: "A specialized marketplace app for digital assets and NFTs, focusing on high-fidelity media rendering." },
   { id: 15, name: "Zong Discount Bazaar", group: "telecom", category: "Lifestyle & Rewards", href: "https://play.google.com/store/apps/details?id=com.zdb.android", stack: ["React Native", "REST API", "Redis"], description: "A comprehensive lifestyle and rewards app offering real-time deals and discounts for millions of users." },
   { id: 16, name: "OPA Tag (NFC)", group: "business", category: "Digital Networking", href: null, stack: ["React Native", "NFC Technology", "Cloud Storage"], description: "A digital networking solution utilizing NFC technology for instant contact and profile sharing." },
+];
+
+
+// The third figure is counted from `projects`, so it stays true as the list changes.
+export const stats = [
+  { value: "5+", label: "Years building with React Native" },
+  { value: "15+", label: "Apps shipped to the App Store & Play Store" },
+  {
+    value: String(projects.filter((p) => p.href).length),
+    label: "Apps you can download or open right now",
+  },
+  { value: "5", label: "Companies & product teams" },
 ];
 
 // Two-letter monogram for the drawn app tile: initials of the first two words,

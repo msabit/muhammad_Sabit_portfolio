@@ -568,6 +568,12 @@
   background: linear-gradient(90deg, rgb(var(--ambient-3)), var(--accent-strong), rgb(var(--ambient-2)));
 }
 
+/* Cards whose link stretches over them show keyboard focus on the whole card. */
+.glass-interactive:has(:focus-visible) {
+  outline: 2px solid var(--accent-ring);
+  outline-offset: 3px;
+}
+
 /* Cursor spotlight on interactive glass cards (desktop mice only). */
 @media (hover: hover) and (pointer: fine) {
   .glass-interactive:hover,

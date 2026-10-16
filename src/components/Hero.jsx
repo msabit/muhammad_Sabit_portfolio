@@ -1,5 +1,6 @@
 import { ArrowRightIcon, ArrowDownTrayIcon } from "@heroicons/react/20/solid";
-import pfp from "../assets/profile.webp";
+import photo from "../assets/Sabit.webp";
+import photoSmall from "../assets/Sabit-480.webp";
 import ResumePDF from "../assets/MuhammadSabit_Resume.pdf";
 import { profile, socialLinks } from "../data/portfolio";
 import SocialIcon from "./ui/SocialIcon";
@@ -65,12 +66,14 @@ export default function Hero() {
           <div ref={tiltRef} className="tilt glass-strong relative p-3">
             <div className="overflow-hidden" style={{ borderRadius: "calc(var(--radius-lg) - 0.5rem)" }}>
               <img
-                src={pfp}
-                alt={`Portrait of ${profile.name}`}
-                width={576}
-                height={659}
+                src={photo}
+                srcSet={`${photoSmall} 480w, ${photo} 768w`}
+                sizes="(min-width: 1024px) 26rem, (min-width: 640px) 24rem, calc(100vw - 4rem)"
+                alt={`Portrait of ${profile.name} in a navy suit`}
+                width={768}
+                height={1004}
                 fetchpriority="high"
-                className="aspect-[576/659] h-auto w-full object-cover"
+                className="aspect-[4/5] h-auto w-full object-cover object-[50%_20%]"
               />
             </div>
           </div>

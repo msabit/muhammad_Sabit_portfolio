@@ -4,9 +4,17 @@ import {
   ShieldCheckIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
-import SabitImage from "../assets/Sabit.webp";
-import SabitImageSmall from "../assets/Sabit-480.webp";
+import avatar from "../assets/profile.webp";
 import { about, profile } from "../data/portfolio";
+
+// The real photo now leads the hero, so About opens with quick facts instead of
+// a second large portrait.
+const facts = [
+  { label: "Based in", value: profile.location },
+  { label: "Building with React Native", value: "Since 2021" },
+  { label: "Platforms", value: "iOS & Android" },
+  { label: "Shipped", value: "15+ apps to the App Store & Play Store" },
+];
 import SectionHeading from "./ui/SectionHeading";
 
 const icons = [Squares2X2Icon, BoltIcon, ShieldCheckIcon, UserGroupIcon];
@@ -16,19 +24,35 @@ export default function About() {
     <section id="about" aria-labelledby="about-heading" className="section">
       <div className="container-page grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
         <div className="relative mx-auto w-full max-w-md lg:sticky lg:top-28 lg:self-start" data-aos="fade-right">
-          <div className="glass p-3">
-            <img
-              src={SabitImage}
-              srcSet={`${SabitImageSmall} 480w, ${SabitImage} 768w`}
-              sizes="(min-width: 1024px) 26rem, (min-width: 640px) 28rem, calc(100vw - 2.5rem)"
-              width={768}
-              height={1004}
-              loading="lazy"
-              decoding="async"
-              alt={`${profile.name} in a navy suit`}
-              className="aspect-[768/1004] h-auto w-full object-cover"
-              style={{ borderRadius: "calc(var(--radius-lg) - 0.5rem)" }}
-            />
+          <div className="glass flex flex-col gap-6 p-6 sm:p-8">
+            <div className="flex items-center gap-4">
+              <img
+                src={avatar}
+                alt=""
+                width={576}
+                height={659}
+                loading="lazy"
+                decoding="async"
+                className="h-16 w-16 rounded-2xl bg-white object-cover object-top"
+              />
+              <div className="flex flex-col">
+                <p className="font-display text-xl font-bold">{profile.name}</p>
+                <p className="text-sm text-muted">{profile.title}</p>
+              </div>
+            </div>
+            <dl className="flex flex-col gap-4">
+              {facts.map((f) => (
+                <div key={f.label} className="flex flex-col gap-0.5 border-t border-line pt-4">
+                  <dt className="text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted">
+                    {f.label}
+                  </dt>
+                  <dd className="font-medium text-ink">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <a href={`mailto:${profile.email}`} className="btn-primary w-full">
+              Email me
+            </a>
           </div>
         </div>
 
