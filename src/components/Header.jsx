@@ -46,24 +46,36 @@ export default function Header() {
     }
   }, [theme]);
 
+  // The bar is always solid; it only tightens its spacing once the page moves.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    let frame = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => setScrolled(window.scrollY > 12));
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4">
-      <div aria-hidden="true" className="scroll-progress fixed inset-x-0 top-0 h-0.5" />
+    <>
+    <div aria-hidden="true" className="scroll-progress fixed inset-x-0 top-0 z-[51] h-0.5" />
+    <header
+      className={`header-shell fixed inset-x-0 top-0 z-50 px-3 sm:px-5 ${
+        scrolled ? "pt-2 sm:pt-3" : "pt-3 sm:pt-5"
+      }`}
+    >
       <nav
         aria-label="Global"
-        className={`mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full py-2 pl-4 pr-2 transition-[background-color,border-color,box-shadow] duration-300 ${
-          scrolled ? "glass-strong" : "border border-transparent"
+        className={`nav-bar mx-auto flex max-w-6xl items-center justify-between gap-4 pl-3 pr-2 ${
+          scrolled ? "py-1.5" : "py-2"
         }`}
-        style={{ borderRadius: "9999px" }}
       >
         <a href="#top" className="flex min-h-[44px] items-center gap-3 rounded-full pr-2">
           <span
@@ -143,5 +155,6 @@ export default function Header() {
         </Dialog.Panel>
       </Dialog>
     </header>
+    </>
   );
 }

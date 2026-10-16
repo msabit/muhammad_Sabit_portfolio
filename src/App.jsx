@@ -31,9 +31,13 @@ export default function App() {
   return (
     <div className="relative min-h-screen overflow-x-clip">
       <div className="ambient" aria-hidden="true">
-        <span />
-        <span />
-        <span />
+        <div className="aurora">
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
       </div>
       <a
         href="#main"

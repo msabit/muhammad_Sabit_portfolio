@@ -19,6 +19,8 @@
     --ambient-1: 88 101 242; /* blue   (rgb triplets so alpha can vary) */
     --ambient-2: 139 92 246; /* violet */
     --ambient-3: 34 211 238; /* cyan   */
+    --ambient-4: 236 72 153; /* pink   */
+    --ambient-5: 20 184 166; /* teal   */
 
     /* Text */
     --ink: #eef1f8;
@@ -56,6 +58,7 @@
     --live-ink: #8ee8c2;
     --live-dot: #34d399;
     --error-ink: #fca5a5;
+    --nav-bg: rgb(11 17 34 / 0.86);
 
     /* Shape & motion */
     --radius-sm: 0.75rem;
@@ -73,6 +76,9 @@
     --ambient-1: 99 117 245;
     --ambient-2: 167 139 250;
     --ambient-3: 56 189 248;
+    --ambient-4: 244 114 182;
+    --ambient-5: 45 212 191;
+    --ribbon: 0.45;
     --ink: #0d1324;
     --ink-soft: #2c3550;
     --muted: #535d78;
@@ -96,6 +102,7 @@
     --live-ink: #04704b;
     --live-dot: #10b981;
     --error-ink: #b42318;
+    --nav-bg: rgb(246 247 251 / 0.88);
   }
 
   html {
@@ -185,7 +192,7 @@
   .glass-interactive:hover,
   .glass-interactive:focus-within {
     background: var(--glass-2);
-    border-color: var(--glass-border-strong);
+    border: 1px solid var(--glass-border-strong);
     box-shadow: var(--shadow-lift);
     transform: translateY(-3px);
   }
@@ -297,6 +304,21 @@
     box-shadow: 0 0 0 3px var(--accent-ring);
   }
 
+  /* Header: always a near-opaque bar, so it reads cleanly over any content even
+     where backdrop blur is missing or weak (some Safari builds). */
+  .header-shell {
+    transition: padding var(--dur) var(--ease-out);
+  }
+  .nav-bar {
+    border-radius: 9999px;
+    transition: padding var(--dur) var(--ease-out);
+    background: var(--nav-bg);
+    border: 1px solid var(--glass-border-strong);
+    box-shadow: var(--shadow-lift);
+    backdrop-filter: blur(var(--blur-lg)) saturate(var(--saturate));
+    -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(var(--saturate));
+  }
+
   .nav-link {
     @apply relative rounded-full px-3.5 py-2 text-sm font-medium;
     color: var(--ink-soft);
@@ -313,7 +335,12 @@
 }
 
 /* ------------------------------------------------------------------
-   Ambient background
+   Ambient background: an aurora of soft colour fields
+   Five radial colour fields drift on long orbits and breathe in opacity,
+   a slow conic ribbon turns behind them, and the whole layer shifts a
+   little with scroll (--scroll from usePageMotion). Only transform and
+   opacity animate, and fields are soft gradients rather than blur
+   filters, so it stays on the compositor.
 ------------------------------------------------------------------- */
 .ambient {
   position: fixed;
@@ -323,38 +350,106 @@
   pointer-events: none;
   background: radial-gradient(120% 80% at 50% -10%, var(--bg-elevated), var(--bg) 60%);
 }
-.ambient span {
+
+.aurora {
   position: absolute;
+  inset: -20vh -10vw;
+  transform: translate3d(0, calc(var(--scroll, 0) * -16vh), 0);
+}
+
+.aurora > span {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
   border-radius: 9999px;
-  filter: blur(90px);
-  will-change: transform;
-  animation: drift 40s ease-in-out infinite alternate;
+  background: radial-gradient(circle at center, rgb(var(--c) / var(--a)) 0%, rgb(var(--c) / 0) 68%);
+  will-change: transform, opacity;
+  animation: var(--path) var(--dur-path) ease-in-out infinite,
+    breathe var(--dur-breathe) ease-in-out infinite;
+  animation-delay: var(--delay), var(--delay);
 }
-.ambient span:nth-child(1) {
-  width: 42rem;
-  height: 42rem;
-  top: -14rem;
-  left: -10rem;
-  background: rgb(var(--ambient-1) / 0.38);
+
+.aurora > span:nth-child(1) {
+  --c: var(--ambient-1);
+  --a: 0.55;
+  --size: 52rem;
+  --path: orbit-a;
+  --dur-path: 34s;
+  --dur-breathe: 11s;
+  --delay: 0s;
+  top: -6rem;
+  left: -8rem;
 }
-.ambient span:nth-child(2) {
-  width: 36rem;
-  height: 36rem;
-  top: 30%;
-  right: -12rem;
-  background: rgb(var(--ambient-2) / 0.3);
-  animation-duration: 52s;
-  animation-delay: -12s;
+.aurora > span:nth-child(2) {
+  --c: var(--ambient-2);
+  --a: 0.5;
+  --size: 46rem;
+  --path: orbit-b;
+  --dur-path: 41s;
+  --dur-breathe: 13s;
+  --delay: -9s;
+  top: 22%;
+  right: -10rem;
 }
-.ambient span:nth-child(3) {
-  width: 30rem;
-  height: 30rem;
-  bottom: -12rem;
-  left: 25%;
-  background: rgb(var(--ambient-3) / 0.18);
-  animation-duration: 60s;
-  animation-delay: -24s;
+.aurora > span:nth-child(3) {
+  --c: var(--ambient-3);
+  --a: 0.32;
+  --size: 40rem;
+  --path: orbit-c;
+  --dur-path: 37s;
+  --dur-breathe: 9s;
+  --delay: -17s;
+  bottom: -8rem;
+  left: 18%;
 }
+.aurora > span:nth-child(4) {
+  --c: var(--ambient-4);
+  --a: 0.28;
+  --size: 34rem;
+  --path: orbit-b;
+  --dur-path: 47s;
+  --dur-breathe: 15s;
+  --delay: -23s;
+  top: 48%;
+  left: -6rem;
+}
+.aurora > span:nth-child(5) {
+  --c: var(--ambient-5);
+  --a: 0.3;
+  --size: 30rem;
+  --path: orbit-a;
+  --dur-path: 39s;
+  --dur-breathe: 12s;
+  --delay: -31s;
+  top: 4%;
+  right: 22%;
+}
+
+/* A wide, faint ribbon of all five hues turning very slowly. */
+.aurora::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  width: 140vmax;
+  height: 140vmax;
+  margin: -70vmax 0 0 -70vmax;
+  background: conic-gradient(
+    from 0deg,
+    rgb(var(--ambient-1) / 0.22),
+    rgb(var(--ambient-5) / 0.16),
+    rgb(var(--ambient-3) / 0.2),
+    rgb(var(--ambient-4) / 0.14),
+    rgb(var(--ambient-2) / 0.22),
+    rgb(var(--ambient-1) / 0.22)
+  );
+  /* Hollow centre: a conic gradient pinches to a visible point where its hues meet. */
+  mask-image: radial-gradient(closest-side, transparent 16%, #000 42%, transparent 74%);
+  -webkit-mask-image: radial-gradient(closest-side, transparent 16%, #000 42%, transparent 74%);
+  opacity: var(--ribbon, 0.7);
+  animation: spin 120s linear infinite;
+}
+
 /* Faint grid gives the glass something to refract. */
 .ambient::after {
   content: "";
@@ -368,12 +463,60 @@
   -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 0%, transparent 70%);
 }
 
-@keyframes drift {
-  from {
+@keyframes orbit-a {
+  0%,
+  100% {
     transform: translate3d(0, 0, 0) scale(1);
   }
+  25% {
+    transform: translate3d(18vw, 8vh, 0) scale(1.12);
+  }
+  50% {
+    transform: translate3d(8vw, 26vh, 0) scale(0.92);
+  }
+  75% {
+    transform: translate3d(-10vw, 12vh, 0) scale(1.06);
+  }
+}
+@keyframes orbit-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  30% {
+    transform: translate3d(-20vw, -10vh, 0) scale(1.1);
+  }
+  60% {
+    transform: translate3d(-6vw, 18vh, 0) scale(0.9);
+  }
+  80% {
+    transform: translate3d(10vw, 6vh, 0) scale(1.04);
+  }
+}
+@keyframes orbit-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(16vw, -20vh, 0) scale(1.14);
+  }
+  66% {
+    transform: translate3d(-14vw, -8vh, 0) scale(0.94);
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+@keyframes spin {
   to {
-    transform: translate3d(4rem, 3rem, 0) scale(1.08);
+    transform: rotate(360deg);
   }
 }
 
