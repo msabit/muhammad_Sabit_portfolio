@@ -4,8 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Bricolage Grotesque"', "ui-sans-serif", "system-ui", "sans-serif"],
-        sans: ['"Schibsted Grotesk"', "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ['"Bricolage Grotesque Variable"', '"Bricolage Grotesque"', "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ['"Schibsted Grotesk Variable"', '"Schibsted Grotesk"', "ui-sans-serif", "system-ui", "sans-serif"],
       },
       // Theme-aware colors backed by the CSS variables in src/index.css.
       colors: {

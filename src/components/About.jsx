@@ -5,6 +5,7 @@ import {
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import SabitImage from "../assets/Sabit.webp";
+import SabitImageSmall from "../assets/Sabit-480.webp";
 import { about, profile } from "../data/portfolio";
 import SectionHeading from "./ui/SectionHeading";
 
@@ -18,6 +19,8 @@ export default function About() {
           <div className="glass p-3">
             <img
               src={SabitImage}
+              srcSet={`${SabitImageSmall} 480w, ${SabitImage} 768w`}
+              sizes="(min-width: 1024px) 26rem, (min-width: 640px) 28rem, calc(100vw - 2.5rem)"
               width={768}
               height={1004}
               loading="lazy"

@@ -25,12 +25,19 @@ npm run dev
 | `npm test`        | Run unit tests (Vitest)                      |
 | `npm run deploy`  | Build and publish `dist/` to GitHub Pages    |
 
+## Deploying
+
+Every push to `main` runs lint, tests and the build on GitHub Actions, then publishes
+`dist/` to the `gh-pages` branch (`.github/workflows/deploy.yml`). Pull requests get the
+same checks without deploying. `npm run deploy` still works as a manual fallback.
+
 ## Contact form
 
 Copy `.env.example` to `.env.local` and set `VITE_WEB3FORMS_KEY` to a free key from
 [web3forms.com](https://web3forms.com). Without a key the form falls back to opening the
 visitor's email app with the message filled in. The key is public by design: it only lets
-the form send to your inbox.
+the form send to your inbox. For the automatic deploy, add the same key as a repository
+secret named `VITE_WEB3FORMS_KEY` (Settings → Secrets and variables → Actions).
 
 ## Editing content
 
