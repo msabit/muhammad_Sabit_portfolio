@@ -1,311 +1,44 @@
-import { useState } from "react";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
-
-const coreMobileDevelopment = [
-  {
-    name: "React Native (Expert)",
-    value: 95,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "TypeScript",
-    value: 90,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "JavaScript (ES6+)",
-    value: 95,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Native API Rendering",
-    value: 85,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Native iOS/Android Modules",
-    value: 80,
-    icon: CheckCircleIcon,
-  },
-];
-
-const stateManagement = [
-  {
-    name: "React Query",
-    value: 85,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Redux",
-    value: 90,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Redux Toolkit",
-    value: 95,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Context API",
-    value: 90,
-    icon: CheckCircleIcon,
-  },
-];
-
-const nativeHybridEnvironments = [
-  {
-    name: "Android Studio",
-    value: 85,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Xcode",
-    value: 85,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Expo",
-    value: 90,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Java/Swift Modules",
-    value: 75,
-    icon: CheckCircleIcon,
-  },
-];
-
-const dataBackendIntegration = [
-  {
-    name: "REST APIs",
-    value: 95,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "GraphQL",
-    value: 75,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Firebase (Firestore)",
-    value: 90,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Firebase Auth",
-    value: 90,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Push Notifications",
-    value: 95,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Social Authentication",
-    value: 90,
-    icon: CheckCircleIcon,
-  },
-];
-
-const storageDatabases = [
-  {
-    name: "SQLite (Offline Storage)",
-    value: 90,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Document Request Models",
-    value: 85,
-    icon: CheckCircleIcon,
-  },
-];
-
-const thirdPartyEcosystem = [
-  {
-    name: "Stripe (Payments)",
-    value: 85,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "RevenueCat (In-App Purchases)",
-    value: 85,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Google Maps API",
-    value: 90,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "AppsFlyer",
-    value: 85,
-    icon: CheckCircleIcon,
-  },
-];
-
-const uiUxWebStandards = [
-  {
-    name: "HTML5",
-    value: 95,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "CSS3",
-    value: 90,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Flexbox",
-    value: 95,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Figma-to-Code Translation",
-    value: 90,
-    icon: CheckCircleIcon,
-  },
-];
-
-const developmentTools = [
-  {
-    name: "Git/GitHub",
-    value: 95,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Jira (Task Estimation)",
-    value: 90,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Postman",
-    value: 95,
-    icon: CheckCircleIcon,
-  },
-  {
-    name: "Unit Testing",
-    value: 80,
-    icon: CheckCircleIcon,
-  },
-];
-
-const skillCategories = [
-  {
-    title: "Core Mobile Development",
-    skills: coreMobileDevelopment,
-    gridCols: "lg:grid-cols-2",
-  },
-  {
-    title: "State Management",
-    skills: stateManagement,
-    gridCols: "lg:grid-cols-2",
-  },
-  {
-    title: "Native & Hybrid Environments",
-    skills: nativeHybridEnvironments,
-    gridCols: "lg:grid-cols-2",
-  },
-  {
-    title: "Data & Backend Integration",
-    skills: dataBackendIntegration,
-    gridCols: "lg:grid-cols-2",
-  },
-  {
-    title: "Storage & Databases",
-    skills: storageDatabases,
-    gridCols: "lg:grid-cols-2",
-  },
-  {
-    title: "Third-Party Ecosystem",
-    skills: thirdPartyEcosystem,
-    gridCols: "lg:grid-cols-2",
-  },
-  {
-    title: "UI/UX & Web Standards",
-    skills: uiUxWebStandards,
-    gridCols: "lg:grid-cols-2",
-  },
-  {
-    title: "Development & Professional Tools",
-    skills: developmentTools,
-    gridCols: "lg:grid-cols-2",
-  },
-];
+import { coreTech, skillCategories } from "../data/portfolio";
+import SectionHeading from "./ui/SectionHeading";
 
 export default function Skills() {
-  const [showAll, setShowAll] = useState(false);
-
-  // Show first 2 categories or all categories based on state
-  const displayedCategories = showAll
-    ? skillCategories
-    : skillCategories.slice(0, 2);
-
   return (
-    <section
-      className="py-24 sm:py-32"
-      id="skills"
-      aria-labelledby="skills-heading"
-    >
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xl leading-7">Explore my</p>
-          <h2
-            id="skills-heading"
-            className="mt-2 text-4xl font-bold tracking-tight sm:text-6xl text-balance"
-          >
-            Technical Skills
-          </h2>
-        </div>
-        <div
-          id="skill-list"
-          className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:gap-y-10"
-        >
-          {displayedCategories.map((category, index) => (
+    <section id="skills" aria-labelledby="skills-heading" className="section">
+      <div className="container-page flex flex-col gap-12">
+        <SectionHeading id="skills-heading" eyebrow="Skills & technologies" title="The stack I ship production apps with.">
+          Grouped by where each tool sits in a mobile product.
+        </SectionHeading>
+
+        <ul className="flex flex-wrap gap-3" aria-label="Core technologies" data-aos="fade-up">
+          {coreTech.map((tech) => (
+            <li
+              key={tech}
+              className="glass glass-interactive px-5 py-3 font-display text-base font-semibold sm:text-lg"
+              style={{ borderRadius: "var(--radius-md)" }}
+            >
+              {tech}
+            </li>
+          ))}
+        </ul>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {skillCategories.map((category, i) => (
             <div
               key={category.title}
-              className="mt-10 max-w-2xl sm:mt-10 lg:mt-10 lg:max-w-4xl bg-base-200 ring-2 ring-base-300 rounded-2xl p-5 shadow-xl"
-              data-aos="zoom-in"
-              data-aos-delay={index * 50}
+              className="glass flex flex-col gap-4 p-6"
+              data-aos="fade-up"
+              data-aos-delay={(i % 4) * 60}
             >
-              <h3 className="text-2xl text-center font-bold mb-6">
-                {category.title}
-              </h3>
-              <dl
-                className={`grid max-w-xl grid-cols-1 gap-x-8 gap-y-6 lg:max-w-none ${category.gridCols} lg:gap-y-6`}
-              >
+              <h3 className="text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted">{category.title}</h3>
+              <ul className="flex flex-wrap gap-2">
                 {category.skills.map((skill) => (
-                  <div key={skill.name} className="relative pl-16">
-                    <dt className="text-base font-semibold leading-7">
-                      <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg">
-                        <skill.icon className="h-6 w-6" aria-hidden="true" />
-                      </div>
-                      {skill.name}
-                    </dt>
-                    <dd className="mt-2 text-base leading-7">
-                      <progress
-                        className="progress w-3/4"
-                        aria-label={`${skill.name} proficiency`}
-                        value={skill.value}
-                        max="100"
-                      ></progress>
-                    </dd>
-                  </div>
+                  <li key={skill} className="chip">
+                    {skill}
+                  </li>
                 ))}
-              </dl>
+              </ul>
             </div>
           ))}
-        </div>
-        <div className="mt-16 flex justify-center">
-          <button
-            type="button"
-            className="btn btn-outline"
-            aria-expanded={showAll}
-            aria-controls="skill-list"
-            onClick={() => setShowAll((v) => !v)}
-          >
-            {showAll ? "Show Fewer Skills" : "View All Skills"}
-          </button>
         </div>
       </div>
     </section>

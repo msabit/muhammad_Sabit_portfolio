@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1d232a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#070b16" />
     <title>Muhammad Sabit – Senior React Native Developer</title>
     <meta name="author" content="Muhammad Sabit" />
     <meta
@@ -36,24 +35,48 @@
     />
     <link rel="apple-touch-icon" href="/logo192.png" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Muhammad Sabit",
+        "jobTitle": "Senior React Native Developer",
+        "url": "https://msabit.github.io/muhammad_Sabit_portfolio/",
+        "email": "mailto:muhammadsabit@gmail.com",
+        "sameAs": [
+          "https://www.linkedin.com/in/muhammadsabit/",
+          "https://github.com/msabit"
+        ]
+      }
+    </script>
     <script>
       // Apply the saved theme before first paint so dark mode doesn't flash light.
       try {
         var saved = localStorage.getItem("theme");
-        var theme =
-          saved ||
-          (window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light");
+        // The glass design is dark-first; light is opt-in via the toggle.
+        var theme = saved === "light" || saved === "dark" ? saved : "dark";
         document.documentElement.setAttribute("data-theme", theme);
       } catch (e) {
-        document.documentElement.setAttribute("data-theme", "light");
+        document.documentElement.setAttribute("data-theme", "dark");
       }
     </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      <h1>Muhammad Sabit – Senior React Native Developer</h1>
+      <p>
+        Senior React Native developer with 5+ years of experience and 15+ apps shipped to the App
+        Store and Play Store. Contact: <a href="mailto:muhammadsabit@gmail.com">muhammadsabit@gmail.com</a>,
+        <a href="https://www.linkedin.com/in/muhammadsabit/">LinkedIn</a>,
+        <a href="https://github.com/msabit">GitHub</a>.
+      </p>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

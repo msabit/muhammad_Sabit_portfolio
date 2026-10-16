@@ -2,13 +2,26 @@
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        display: ['"Bricolage Grotesque"', "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ['"Schibsted Grotesk"', "ui-sans-serif", "system-ui", "sans-serif"],
+      },
+      // Theme-aware colors backed by the CSS variables in src/index.css.
+      colors: {
+        ink: "var(--ink)",
+        "ink-soft": "var(--ink-soft)",
+        muted: "var(--muted)",
+        accent: "var(--accent)",
+        line: "var(--glass-border)",
+        "line-strong": "var(--glass-border-strong)",
+        surface: "var(--bg)",
+        live: "var(--live-ink)",
+      },
+      borderRadius: {
+        glass: "var(--radius-lg)",
+      },
+    },
   },
-  daisyui: {
-    themes: ["light", "dark"],
-  },
-  plugins: [
-    require("@tailwindcss/forms"),
-    require("daisyui"),
-  ],
+  plugins: [require("@tailwindcss/forms")({ strategy: "class" })],
 };
