@@ -122,3 +122,44 @@ export function usePageMotion() {
     };
   }, []);
 }
+
+// Reveals elements marked data-aos="fade-up|fade-left|fade-right" (optional
+// data-aos-delay in ms) once they scroll into view. Replaces the AOS library;
+// CSS lives under "Scroll reveal" in index.css. When the entrance finishes the
+// attribute is removed, so the element's own hover transforms work again.
+export function useScrollReveal() {
+  useEffect(() => {
+    const els = [...document.querySelectorAll("[data-aos]")];
+    if (!els.length) return undefined;
+    if (prefersReducedMotion() || !("IntersectionObserver" in window)) {
+      els.forEach((el) => el.removeAttribute("data-aos"));
+      return undefined;
+    }
+    const settle = (el) => {
+      const onEnd = (e) => {
+        if (e.target !== el || e.propertyName !== "opacity") return;
+        el.removeEventListener("transitionend", onEnd);
+        el.removeAttribute("data-aos");
+        el.classList.remove("is-revealed");
+        el.style.removeProperty("--aos-delay");
+      };
+      el.addEventListener("transitionend", onEnd);
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const el = entry.target;
+          io.unobserve(el);
+          const delay = el.getAttribute("data-aos-delay");
+          if (delay) el.style.setProperty("--aos-delay", `${delay}ms`);
+          settle(el);
+          el.classList.add("is-revealed");
+        }
+      },
+      { rootMargin: "0px 0px -40px 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+}

@@ -5,4 +5,8 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   base: "/muhammad_Sabit_portfolio/",
   plugins: [react()],
+  // Unit tests only; browser smoke tests in e2e/ run with Playwright.
+  test: {
+    include: ["src/**/*.test.{js,jsx}"],
+  },
 });

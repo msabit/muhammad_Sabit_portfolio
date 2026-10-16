@@ -23,6 +23,7 @@ npm run dev
 | `npm run preview` | Serve the production build locally           |
 | `npm run lint`    | Run ESLint                                   |
 | `npm test`        | Run unit tests (Vitest)                      |
+| `npm run test:e2e` | Browser smoke tests on the built site (Playwright); run `npm run build` first |
 | `npm run deploy`  | Build and publish `dist/` to GitHub Pages    |
 
 ## Pre-rendering
@@ -34,7 +35,8 @@ read `window`, `document` or `localStorage` while rendering: do that in effects.
 
 ## Deploying
 
-Every push to `main` runs lint, tests and the build on GitHub Actions, then publishes
+Every push to `main` runs lint, unit tests, the build and browser smoke tests on
+GitHub Actions, then publishes
 `dist/` to the `gh-pages` branch (`.github/workflows/deploy.yml`). Pull requests get the
 same checks without deploying. `npm run deploy` still works as a manual fallback.
 

@@ -28,3 +28,7 @@ yarn-error.log*
 /.taste-skill
 /assets
 /.claude
+
+# Playwright
+/test-results
+/playwright-report

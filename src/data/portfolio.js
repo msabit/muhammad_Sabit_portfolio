@@ -77,16 +77,64 @@ export const about = {
   ],
 };
 
+// Highlights come from the resume (src/assets/MuhammadSabit_Resume.pdf). EConceptions
+// has none yet: its resume bullets duplicate InfinityBits word for word.
 export const experience = [
-  { role: "Senior React Native Developer", company: "PhenTech Pvt", period: "Dec 2023 – Present", current: true },
-  { role: "React Native Consultant", company: "Neural Metrics Pvt", period: "June 2023 – Feb 2024" },
-  { role: "React Native Developer", company: "InfinityBits", period: "April 2023 – Dec 2023" },
-  { role: "React Native Developer", company: "EConceptions Pvt", period: "April 2022 – March 2023" },
-  { role: "React Native Developer", company: "TechMelo", period: "Feb 2021 – March 2022" },
+  {
+    role: "Senior React Native Developer",
+    company: "PhenTech Pvt",
+    period: "Dec 2023 – Present",
+    current: true,
+    highlights: [
+      "Lead the architecture and development of scalable cross-platform apps with React Native and TypeScript.",
+      "Cut load times by 30% through efficient state management with Redux Toolkit and memoization.",
+      "Integrated Stripe payments and RevenueCat subscriptions for in-app purchases.",
+      "Mentor junior developers and run code reviews to keep codebases maintainable.",
+    ],
+  },
+  {
+    role: "React Native Consultant",
+    company: "Neural Metrics Pvt",
+    period: "June 2023 – Feb 2024",
+    highlights: [
+      "Turned complex Figma wireframes into responsive, pixel-perfect mobile interfaces with the design team.",
+      "Built real-time features on Firebase and integrated REST APIs for data sync.",
+      "Managed releases to both Google Play and the Apple App Store.",
+    ],
+  },
+  {
+    role: "React Native Developer",
+    company: "InfinityBits",
+    period: "April 2023 – Dec 2023",
+    highlights: [
+      "Developed core modules for client projects, focused on smooth navigation and SQLite offline storage.",
+      "Integrated Google and Facebook sign-in and push notifications.",
+      "Debugged and unit-tested for crash-free releases.",
+    ],
+  },
+  {
+    role: "React Native Developer",
+    company: "EConceptions Pvt",
+    period: "April 2022 – March 2023",
+    highlights: [],
+  },
+  {
+    role: "React Native Developer",
+    company: "TechMelo",
+    period: "Feb 2021 – March 2022",
+    highlights: [
+      "Built UI components and navigation flows for early-stage mobile prototypes.",
+      "Unit-tested and fixed bugs in Android and iOS modules alongside senior engineers.",
+    ],
+  },
 ];
 
 export const education = [
-  { degree: "Bachelor of Science in Computer Science (BSCS)", school: "PMAS University, Rawalpindi" },
+  {
+    degree: "Bachelor of Science in Computer Science (BSCS)",
+    school: "PMAS-Arid Agriculture University, Rawalpindi",
+    period: "2017 – 2021",
+  },
   { degree: "Intermediate in Computer Science (ICS)", school: "Punjab Group of Colleges" },
 ];
 

@@ -1,7 +1,7 @@
 name: Build and deploy
 
-# Every push to main is linted, tested, built and published to the gh-pages
-# branch, which GitHub Pages serves. Pull requests get the same checks without
+# Every push to main is linted, unit-tested, built, smoke-tested in a real browser
+# and published to the gh-pages branch, which GitHub Pages serves. Pull requests get the same checks without
 # deploying. `npm run deploy` still works as a manual fallback.
 on:
   push:
@@ -36,6 +36,19 @@ jobs:
           # Optional: add a repository secret named VITE_WEB3FORMS_KEY to make the
           # contact form send directly instead of opening the visitor's email app.
           VITE_WEB3FORMS_KEY: ${{ secrets.VITE_WEB3FORMS_KEY }}
+
+      # Browser smoke tests against the built site; a failure stops the deploy.
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+        env:
+          VITE_WEB3FORMS_KEY: ${{ secrets.VITE_WEB3FORMS_KEY }}
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-traces
+          path: test-results/
+          retention-days: 7
 
       - name: Publish to gh-pages
         if: github.event_name != 'pull_request'

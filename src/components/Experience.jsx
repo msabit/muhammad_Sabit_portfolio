@@ -20,7 +20,10 @@ export default function Experience() {
               {education.map((e) => (
                 <li key={e.degree} className="flex flex-col gap-0.5">
                   <span className="font-semibold">{e.degree}</span>
-                  <span className="text-sm text-muted">{e.school}</span>
+                  <span className="text-sm text-muted">
+                    {e.school}
+                    {e.period ? <span className="tabular-nums"> · {e.period}</span> : null}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -48,7 +51,8 @@ export default function Experience() {
                   style={{ background: job.current ? "var(--accent)" : "var(--muted)" }}
                 />
               </span>
-              <div className="glass glass-interactive flex flex-col gap-2 p-6 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+              <div className="glass glass-interactive flex flex-col gap-4 p-6">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
                 <div className="flex flex-col gap-1">
                   <h3 className="font-display text-xl font-bold">{job.role}</h3>
                   <p className="font-medium text-accent">{job.company}</p>
@@ -64,6 +68,21 @@ export default function Experience() {
                   ) : null}
                   <span className="text-sm tabular-nums text-muted">{job.period}</span>
                 </div>
+                </div>
+                {job.highlights?.length ? (
+                  <ul className="flex flex-col gap-2 text-base leading-relaxed text-ink-soft">
+                    {job.highlights.map((h) => (
+                      <li key={h} className="relative pl-5">
+                        <span
+                          aria-hidden="true"
+                          className="absolute left-0 top-[0.7em] h-1.5 w-1.5 rounded-full"
+                          style={{ background: job.current ? "var(--accent)" : "var(--muted)" }}
+                        />
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
               </div>
             </li>
           ))}
