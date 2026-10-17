@@ -60,7 +60,7 @@ export default function Contact() {
               {CONTACT_EMAIL}
             </a>
 
-            <ul className="flex flex-col gap-2" aria-label="Contact links">
+            <ul className="flex flex-col gap-2 max-sm:hidden" aria-label="Contact links">
               {socialLinks.map((link) => (
                 <li key={link.href}>
                   <a
@@ -88,7 +88,7 @@ export default function Contact() {
               ))}
             </ul>
 
-            <a href={ResumePDF} download="MuhammadSabit_Resume.pdf" className="btn-glass w-fit px-5">
+            <a href={ResumePDF} download="MuhammadSabit_Resume.pdf" className="btn-glass w-fit px-5 max-sm:hidden">
               <ArrowDownTrayIcon className="h-4 w-4" aria-hidden="true" />
               Download CV
             </a>

@@ -1,3 +1,10 @@
+/* Typed so glass fills can transition smoothly between states. */
+@property --fill {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -34,18 +41,28 @@
     --accent-ring: rgb(154 171 255 / 0.6);
 
     /* Glass */
-    --glass-1: rgb(255 255 255 / 0.045);
-    --glass-2: rgb(255 255 255 / 0.075);
-    --glass-3: rgb(255 255 255 / 0.11);
+    --glass-1: rgb(255 255 255 / 0.05);
+    --glass-2: rgb(255 255 255 / 0.08);
+    --glass-3: rgb(255 255 255 / 0.12);
+    /* Glass anatomy: a diagonal sheen over a translucent fill, framed by a rim
+       that catches light top-left and fades bottom-right (see .glass). */
+    --glass-sheen: linear-gradient(135deg, rgb(255 255 255 / 0.055) 0%, rgb(255 255 255 / 0) 38%);
+    --glass-rim: linear-gradient(
+      135deg,
+      rgb(255 255 255 / 0.3),
+      rgb(255 255 255 / 0.07) 40%,
+      rgb(255 255 255 / 0.03) 65%,
+      rgb(255 255 255 / 0.16)
+    );
     --glass-border: rgb(255 255 255 / 0.1);
     --glass-border-strong: rgb(255 255 255 / 0.18);
     --glass-highlight: rgb(255 255 255 / 0.12);
     --glass-field: rgb(4 7 16 / 0.45);
-    --glass-solid: rgb(12 18 36 / 0.86); /* floating labels over imagery */
+    --glass-solid: rgb(12 18 36 / 0.62); /* floating labels over imagery */
     --blur-sm: 10px;
     --blur-md: 18px;
     --blur-lg: 28px;
-    --saturate: 140%;
+    --saturate: 170%;
 
     /* Depth */
     --shadow-glass: 0 1px 0 0 var(--glass-highlight) inset,
@@ -62,7 +79,7 @@
     --grid-dot: rgb(255 255 255 / 0.06);
     --grid-dot-active: rgb(190 200 255 / 0.75);
     --grid-line: rgb(154 171 255 / 0.4);
-    --nav-bg: rgb(11 17 34 / 0.86);
+    --nav-bg: rgb(11 17 34 / 0.72);
 
     /* Shape & motion */
     --radius-sm: 0.75rem;
@@ -90,14 +107,22 @@
     --accent-strong: #4052da;
     --accent-strong-hover: #3445c8;
     --accent-ring: rgb(64 82 218 / 0.5);
-    --glass-1: rgb(255 255 255 / 0.5);
-    --glass-2: rgb(255 255 255 / 0.62);
-    --glass-3: rgb(255 255 255 / 0.78);
+    --glass-1: rgb(255 255 255 / 0.3);
+    --glass-2: rgb(255 255 255 / 0.42);
+    --glass-3: rgb(255 255 255 / 0.58);
+    --glass-sheen: linear-gradient(135deg, rgb(255 255 255 / 0.6) 0%, rgb(255 255 255 / 0) 50%);
+    --glass-rim: linear-gradient(
+      135deg,
+      rgb(255 255 255 / 0.95),
+      rgb(255 255 255 / 0.4) 40%,
+      rgb(13 19 36 / 0.07) 70%,
+      rgb(255 255 255 / 0.65)
+    );
     --glass-border: rgb(13 19 36 / 0.08);
     --glass-border-strong: rgb(13 19 36 / 0.14);
     --glass-highlight: rgb(255 255 255 / 0.9);
     --glass-field: rgb(255 255 255 / 0.7);
-    --glass-solid: rgb(255 255 255 / 0.9);
+    --glass-solid: rgb(255 255 255 / 0.74); /* labels over the photo need contrast */
     --shadow-glass: 0 1px 0 0 var(--glass-highlight) inset,
       0 24px 48px -30px rgb(30 41 82 / 0.28);
     --shadow-lift: 0 1px 0 0 var(--glass-highlight) inset,
@@ -109,7 +134,7 @@
     --grid-dot: rgb(13 19 36 / 0.07);
     --grid-dot-active: rgb(64 82 218 / 0.7);
     --grid-line: rgb(64 82 218 / 0.3);
-    --nav-bg: rgb(246 247 251 / 0.88);
+    --nav-bg: rgb(246 247 251 / 0.68);
   }
 
   html {
@@ -162,9 +187,46 @@
     @apply py-20 sm:py-28;
   }
 
+  /* Glass recipe shared by every glass surface: optional pointer spotlight (--spot),
+     sheen and translucent fill (--fill) as background layers, plus a gradient rim
+     drawn as a masked 1px ring in ::after so it never tints the panel itself. */
+  .glass,
+  .glass-strong,
+  .glass-label,
+  .btn-glass,
+  .chip,
+  .pill,
+  .nav-bar {
+    border: 1px solid transparent;
+    background: var(--spot, linear-gradient(transparent, transparent)) border-box,
+      var(--glass-sheen) border-box,
+      linear-gradient(var(--fill), var(--fill)) border-box;
+  }
+  /* :where() keeps this at zero specificity, so utilities like `absolute` win. */
+  :where(.glass, .glass-strong, .glass-label, .btn-glass, .chip, .pill, .nav-bar) {
+    position: relative;
+  }
+  .glass::after,
+  .glass-strong::after,
+  .glass-label::after,
+  .btn-glass::after,
+  .chip::after,
+  .pill::after,
+  .nav-bar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: var(--glass-rim);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    pointer-events: none;
+  }
+
   .glass {
-    background: var(--glass-1);
-    border: 1px solid var(--glass-border);
+    --fill: var(--glass-1);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-glass);
     backdrop-filter: blur(var(--blur-md)) saturate(var(--saturate));
@@ -172,8 +234,7 @@
   }
 
   .glass-strong {
-    background: var(--glass-2);
-    border: 1px solid var(--glass-border-strong);
+    --fill: var(--glass-2);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-glass);
     backdrop-filter: blur(var(--blur-lg)) saturate(var(--saturate));
@@ -181,25 +242,24 @@
   }
 
   .glass-label {
-    background: var(--glass-solid);
-    border: 1px solid var(--glass-border-strong);
+    --fill: var(--glass-solid);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-lift);
-    backdrop-filter: blur(var(--blur-md));
-    -webkit-backdrop-filter: blur(var(--blur-md));
+    backdrop-filter: blur(var(--blur-md)) saturate(var(--saturate));
+    -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--saturate));
   }
 
   /* Cards that respond to hover/focus-within. */
   .glass-interactive {
-    transition: transform var(--dur) var(--ease-out),
+    transition: --fill var(--dur) var(--ease-out),
+      transform var(--dur) var(--ease-out),
       background-color var(--dur) var(--ease-out),
       border-color var(--dur) var(--ease-out),
       box-shadow var(--dur) var(--ease-out);
   }
   .glass-interactive:hover,
   .glass-interactive:focus-within {
-    background: var(--glass-2);
-    border: 1px solid var(--glass-border-strong);
+    --fill: var(--glass-2);
     box-shadow: var(--shadow-lift);
     transform: translateY(-3px);
   }
@@ -226,8 +286,8 @@
   /* Buttons */
   .btn-base {
     @apply inline-flex min-h-[44px] select-none items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold;
-    transition: background-color var(--dur-fast) ease, border-color var(--dur-fast) ease,
-      color var(--dur-fast) ease, transform var(--dur-fast) ease;
+    transition: --fill var(--dur-fast) ease, background-color var(--dur-fast) ease,
+      border-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-fast) ease;
   }
   .btn-base:active {
     transform: scale(0.97);
@@ -244,14 +304,14 @@
   }
   .btn-glass {
     @apply btn-base;
-    background: var(--glass-2);
-    border: 1px solid var(--glass-border-strong);
+    --fill: var(--glass-2);
     color: var(--ink);
-    backdrop-filter: blur(var(--blur-sm));
-    -webkit-backdrop-filter: blur(var(--blur-sm));
+    box-shadow: 0 1px 0 0 var(--glass-highlight) inset, 0 8px 20px -14px rgb(0 0 0 / 0.5);
+    backdrop-filter: blur(var(--blur-sm)) saturate(var(--saturate));
+    -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--saturate));
   }
   .btn-glass:hover {
-    background: var(--glass-3);
+    --fill: var(--glass-3);
   }
   .btn-icon {
     @apply btn-glass min-w-[44px] px-0;
@@ -260,15 +320,12 @@
   /* Badges & chips */
   .chip {
     @apply inline-flex items-center rounded-full px-3 py-1 text-[0.8125rem] font-medium;
-    background: var(--glass-1);
-    border: 1px solid var(--glass-border);
+    --fill: var(--glass-1);
     color: var(--ink-soft);
-    transition: background-color var(--dur-fast) ease, border-color var(--dur-fast) ease,
-      color var(--dur-fast) ease;
+    transition: --fill var(--dur-fast) ease, color var(--dur-fast) ease;
   }
   .chip:hover {
-    background: var(--glass-3);
-    border-color: var(--glass-border-strong);
+    --fill: var(--glass-3);
     color: var(--ink);
   }
   .chip-mono {
@@ -280,17 +337,17 @@
   /* Filter / toggle pills */
   .pill {
     @apply btn-base px-4;
-    background: var(--glass-1);
-    border: 1px solid var(--glass-border);
+    --fill: var(--glass-1);
     color: var(--ink-soft);
   }
   .pill:hover {
-    background: var(--glass-2);
+    --fill: var(--glass-2);
     color: var(--ink);
   }
   .pill[aria-pressed="true"] {
     background: var(--ink);
     border-color: var(--ink);
+    --fill: var(--ink);
     color: var(--bg);
   }
 
@@ -311,16 +368,15 @@
     box-shadow: 0 0 0 3px var(--accent-ring);
   }
 
-  /* Header: always a near-opaque bar, so it reads cleanly over any content even
-     where backdrop blur is missing or weak (some Safari builds). */
+  /* Header: glass, but kept dense enough (--nav-bg) to read cleanly over any
+     content even where backdrop blur is missing or weak (some Safari builds). */
   .header-shell {
     transition: padding var(--dur) var(--ease-out);
   }
   .nav-bar {
     border-radius: 9999px;
     transition: padding var(--dur) var(--ease-out);
-    background: var(--nav-bg);
-    border: 1px solid var(--glass-border-strong);
+    --fill: var(--nav-bg);
     box-shadow: var(--shadow-lift);
     backdrop-filter: blur(var(--blur-lg)) saturate(var(--saturate));
     -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(var(--saturate));
@@ -609,8 +665,10 @@
 /* Browsers without backdrop-filter get more opaque panels so text stays readable. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glass,
-  .glass-strong {
-    background: var(--bg-elevated);
+  .glass-strong,
+  .glass-label,
+  .nav-bar {
+    --fill: var(--bg-elevated);
   }
 }
 
@@ -661,6 +719,14 @@
   pointer-events: none;
 }
 
+/* Horizontal scrollers (phone filter row) without a visible scrollbar. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Theme toggle icon: shown by the active theme, not by React state. */
 :root[data-theme="light"] .when-dark,
 :root:not([data-theme="light"]) .when-light {
@@ -677,12 +743,11 @@
 @media (hover: hover) and (pointer: fine) {
   .glass-interactive:hover,
   .glass-interactive:focus-within {
-    background: radial-gradient(
-        420px circle at var(--mx, 50%) var(--my, 0%),
-        rgb(var(--ambient-1) / 0.16),
-        transparent 65%
-      ),
-      var(--glass-2);
+    --spot: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 0%),
+      rgb(var(--ambient-1) / 0.16),
+      transparent 65%
+    );
   }
 }
 

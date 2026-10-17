@@ -12,8 +12,9 @@ import { about, profile } from "../data/portfolio";
 const facts = [
   { label: "Based in", value: profile.location },
   { label: "Building with React Native", value: "Since 2021" },
-  { label: "Platforms", value: "iOS & Android" },
-  { label: "Shipped", value: "15+ apps to the App Store & Play Store" },
+  // The hero already says these, so phones skip them.
+  { label: "Platforms", value: "iOS & Android", phone: false },
+  { label: "Shipped", value: "15+ apps to the App Store & Play Store", phone: false },
 ];
 import SectionHeading from "./ui/SectionHeading";
 import ProtectedImage from "./ui/ProtectedImage";
@@ -44,7 +45,10 @@ export default function About() {
             </div>
             <dl className="flex flex-col gap-4">
               {facts.map((f) => (
-                <div key={f.label} className="flex flex-col gap-0.5 border-t border-line pt-4">
+                <div
+                  key={f.label}
+                  className={`flex flex-col gap-0.5 border-t border-line pt-4 ${f.phone === false ? "max-sm:hidden" : ""}`}
+                >
                   <dt className="text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted">
                     {f.label}
                   </dt>
@@ -62,18 +66,18 @@ export default function About() {
           <SectionHeading id="about-heading" eyebrow="About me" title="Business requirements in, reliable apps out." />
 
           <div className="flex flex-col gap-5 text-lg leading-relaxed text-ink-soft" data-aos="fade-up">
-            {about.paragraphs.map((p) => (
-              <p key={p.slice(0, 24)} className="text-pretty">
+            {about.paragraphs.map((p, i) => (
+              <p key={p.slice(0, 24)} className={`text-pretty ${i > 0 ? "max-sm:hidden" : ""}`}>
                 {p}
               </p>
             ))}
           </div>
 
-          <ul className="grid gap-4 sm:grid-cols-2" aria-label="Technical strengths">
+          <ul className="grid grid-cols-2 gap-3 sm:gap-4" aria-label="Technical strengths">
             {about.strengths.map((s, i) => {
               const Icon = icons[i % icons.length];
               return (
-                <li key={s.title} className="glass glass-interactive flex flex-col gap-3 p-6" data-aos="fade-up" data-aos-delay={i * 60}>
+                <li key={s.title} className="glass glass-interactive flex flex-col gap-3 p-4 sm:p-6" data-aos="fade-up" data-aos-delay={i * 60}>
                   <span
                     className="flex h-10 w-10 items-center justify-center border border-line-strong text-accent"
                     style={{ borderRadius: "var(--radius-sm)", background: "var(--glass-2)" }}
@@ -81,8 +85,8 @@ export default function About() {
                   >
                     <Icon className="h-5 w-5" />
                   </span>
-                  <h3 className="font-display text-lg font-bold">{s.title}</h3>
-                  <p className="text-base leading-relaxed text-muted">{s.text}</p>
+                  <h3 className="font-display text-base font-bold leading-snug sm:text-lg">{s.title}</h3>
+                  <p className="text-base leading-relaxed text-muted max-sm:hidden">{s.text}</p>
                 </li>
               );
             })}

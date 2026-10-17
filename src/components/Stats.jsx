@@ -31,12 +31,12 @@ export default function Stats() {
           {stats.map((stat, i) => (
             <div
               key={stat.label}
-              className={`flex flex-col gap-2 p-6 sm:p-8 ${i % 2 === 1 ? "border-l border-line" : ""} ${
+              className={`flex flex-col gap-1.5 p-5 sm:gap-2 sm:p-8 ${i % 2 === 1 ? "border-l border-line" : ""} ${
                 i > 1 ? "border-t border-line lg:border-t-0" : ""
               } ${i === 2 ? "lg:border-l" : ""}`}
             >
-              <dt className="order-2 text-sm leading-snug text-muted">{stat.label}</dt>
-              <dd className="order-1 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
+              <dt className="order-2 text-[0.8125rem] leading-snug text-muted sm:text-sm">{stat.label}</dt>
+              <dd className="order-1 font-display text-3xl font-extrabold tracking-tight sm:text-5xl">
                 <StatValue value={stat.value} start={inView} />
               </dd>
             </div>

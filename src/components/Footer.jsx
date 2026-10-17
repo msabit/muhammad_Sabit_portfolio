@@ -14,7 +14,7 @@ export default function Footer() {
             </p>
           </div>
 
-          <nav aria-label="Footer" className="flex flex-wrap gap-x-1 gap-y-1">
+          <nav aria-label="Footer" className="flex flex-wrap gap-x-1 gap-y-1 max-sm:hidden">
             {navigation.map((item) => (
               <a key={item.id} href={`#${item.id}`} className="nav-link">
                 {item.name}

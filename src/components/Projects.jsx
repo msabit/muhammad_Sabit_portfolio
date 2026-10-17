@@ -6,6 +6,7 @@ import { useInView } from "../hooks/useMotion";
 import SectionHeading from "./ui/SectionHeading";
 
 const INITIAL_COUNT = 6;
+const PHONE_COUNT = 3; // phones start with fewer cards (CSS-only, see the list below)
 
 // Publicly available apps first, then client builds; original order kept within each.
 const ordered = [...projects.filter((p) => p.href), ...projects.filter((p) => !p.href)];
@@ -128,8 +129,8 @@ function ProjectCard({ project, index }) {
             project.name
           )}
         </h3>
-        <p className="text-base leading-relaxed text-muted">{project.description}</p>
-        <ul className="mt-1 flex flex-wrap gap-1.5" aria-label="Technologies">
+        <p className="text-base leading-relaxed text-muted max-sm:line-clamp-2">{project.description}</p>
+        <ul className="mt-1 flex flex-wrap gap-1.5 max-sm:hidden" aria-label="Technologies">
           {project.stack.map((t) => (
             <li key={t} className="chip-mono">
               {t}
@@ -196,12 +197,17 @@ export default function Projects() {
           </SectionHeading>
         </div>
 
-        <div role="group" aria-label="Filter projects" className="flex flex-wrap gap-2" data-aos="fade-up">
+        <div
+          role="group"
+          aria-label="Filter projects"
+          className="no-scrollbar flex flex-wrap gap-2 max-sm:-mx-5 max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:px-5 max-sm:pb-1"
+          data-aos="fade-up"
+        >
           {filters.map((f) => (
             <button
               key={f.id}
               type="button"
-              className="pill"
+              className="pill shrink-0 whitespace-nowrap"
               aria-pressed={filter === f.id}
               onClick={() => choose(f.id)}
             >
@@ -216,7 +222,9 @@ export default function Projects() {
           key={filter}
           ref={listRef}
           id="project-list"
-          className={`cascade grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ${listInView ? "is-in" : ""}`}
+          className={`cascade grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ${listInView ? "is-in" : ""} ${
+            showAll ? "" : "max-sm:[&>li:nth-child(n+4)]:hidden"
+          }`}
           aria-live="polite"
         >
           {displayed.map((project, i) => (
@@ -224,8 +232,10 @@ export default function Projects() {
           ))}
         </ul>
 
-        {matched.length > INITIAL_COUNT ? (
-          <div className="flex justify-center">
+        {/* On phones the button appears once there are more than PHONE_COUNT cards;
+            from sm up only when there are more than INITIAL_COUNT. */}
+        {matched.length > PHONE_COUNT ? (
+          <div className={`flex justify-center ${matched.length > INITIAL_COUNT ? "" : "sm:hidden"}`}>
             <button
               type="button"
               className="btn-glass px-6"

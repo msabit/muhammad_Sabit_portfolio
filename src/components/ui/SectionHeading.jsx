@@ -9,7 +9,7 @@ export default function SectionHeading({ id, eyebrow, title, children, align = "
       <h2 id={id} className="heading-lg text-balance">
         {title}
       </h2>
-      {children ? <p className="text-pretty text-lg leading-relaxed text-muted">{children}</p> : null}
+      {children ? <p className="text-pretty text-lg leading-relaxed text-muted max-sm:hidden">{children}</p> : null}
     </div>
   );
 }

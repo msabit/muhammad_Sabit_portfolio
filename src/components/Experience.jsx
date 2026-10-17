@@ -6,12 +6,12 @@ export default function Experience() {
   return (
     <section id="experience" aria-labelledby="experience-heading" className="section">
       <div className="container-page grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
-        <div className="flex flex-col gap-8 lg:sticky lg:top-28 lg:self-start">
+        <div className="flex flex-col gap-8 max-lg:contents lg:sticky lg:top-28 lg:self-start">
           <SectionHeading id="experience-heading" eyebrow="Experience" title="Five teams, one craft.">
             React Native roles since 2021, from developer to senior engineer and consultant.
           </SectionHeading>
 
-          <div className="glass flex flex-col gap-5 p-6" data-aos="fade-up">
+          <div className="glass flex flex-col gap-5 p-6 max-lg:order-last" data-aos="fade-up">
             <h3 className="flex items-center gap-2 font-display text-lg font-bold">
               <AcademicCapIcon className="h-5 w-5 text-accent" aria-hidden="true" />
               Education
@@ -70,7 +70,7 @@ export default function Experience() {
                 </div>
                 </div>
                 {job.highlights?.length ? (
-                  <ul className="flex flex-col gap-2 text-base leading-relaxed text-ink-soft">
+                  <ul className="flex flex-col gap-2 text-base leading-relaxed text-ink-soft max-sm:[&>li:nth-child(n+2)]:hidden">
                     {job.highlights.map((h) => (
                       <li key={h} className="relative pl-5">
                         <span

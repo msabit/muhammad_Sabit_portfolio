@@ -78,11 +78,11 @@ export default function Hero() {
               />
             </div>
           </div>
-          <div className="float-a glass-label absolute bottom-8 left-3 px-4 py-3 sm:-left-10 sm:bottom-10">
+          <div className="float-a glass-label absolute bottom-8 max-sm:hidden left-3 px-4 py-3 sm:-left-10 sm:bottom-10">
             <p className="text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted">Platforms</p>
             <p className="font-display text-base font-bold">iOS &amp; Android</p>
           </div>
-          <div className="float-b glass-label absolute right-3 top-6 px-4 py-3 sm:-right-8 sm:top-8">
+          <div className="float-b glass-label absolute right-3 max-sm:hidden top-6 px-4 py-3 sm:-right-8 sm:top-8">
             <p className="text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted">Core stack</p>
             <p className="font-display text-base font-bold">React Native · TS</p>
           </div>
