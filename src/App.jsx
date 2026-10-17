@@ -38,6 +38,12 @@ export default function App() {
           <span />
           <span />
         </div>
+        <div className="aurora aurora-alt">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
         <div className="grid-field">
           <div className="grid-dots" />
         </div>

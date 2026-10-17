@@ -30,8 +30,8 @@ export default function Skills() {
             >
               <h3 className="text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted">{category.title}</h3>
               <ul className="flex flex-wrap gap-2">
-                {category.skills.map((skill) => (
-                  <li key={skill} className="chip">
+                {category.skills.map((skill, j) => (
+                  <li key={skill} className="chip" style={{ "--c-i": j }}>
                     {skill}
                   </li>
                 ))}

@@ -5,10 +5,12 @@ import ResumePDF from "../assets/MuhammadSabit_Resume.pdf";
 import { profile, socialLinks } from "../data/portfolio";
 import SocialIcon from "./ui/SocialIcon";
 import ProtectedImage from "./ui/ProtectedImage";
-import { useTilt } from "../hooks/useMotion";
+import { useMagnetic, useTilt } from "../hooks/useMotion";
 
 export default function Hero() {
   const tiltRef = useTilt(7);
+  const workRef = useMagnetic();
+  const cvRef = useMagnetic();
   return (
     <section id="top" aria-labelledby="hero-heading" className="relative pb-16 pt-32 sm:pb-24 sm:pt-40">
       <div className="container-page grid items-center gap-14 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-10">
@@ -26,7 +28,9 @@ export default function Hero() {
               <span style={{ "--i": 0 }}>Hello, I&apos;m</span>
             </span>
             <span className="mask-line">
-              <span style={{ "--i": 1 }}>{profile.name}</span>
+              <span style={{ "--i": 1 }}>
+                <span className="shimmer-text">{profile.name}</span>
+              </span>
             </span>
           </h1>
 
@@ -36,11 +40,11 @@ export default function Hero() {
           </p>
 
           <div data-rise style={{ "--i": 4 }} className="flex flex-wrap items-center gap-3">
-            <a href="#projects" className="btn-primary px-6 text-base">
+            <a ref={workRef} href="#projects" className="magnetic btn-primary px-6 text-base">
               View my work
               <ArrowRightIcon className="nudge-x h-4 w-4" aria-hidden="true" />
             </a>
-            <a href={ResumePDF} download="MuhammadSabit_Resume.pdf" className="btn-glass px-6 text-base">
+            <a ref={cvRef} href={ResumePDF} download="MuhammadSabit_Resume.pdf" className="magnetic btn-glass px-6 text-base">
               <ArrowDownTrayIcon className="nudge-down h-4 w-4" aria-hidden="true" />
               Download CV
             </a>

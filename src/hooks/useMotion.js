@@ -64,6 +64,39 @@ export function useTilt(max = 6) {
   return ref;
 }
 
+// Pulls an element a few pixels toward the pointer while it hovers (desktop
+// mice only). Uses the `translate` property, so it never fights `transform`.
+export function useMagnetic(strength = 0.3, limit = 8) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || prefersReducedMotion() || !finePointer()) return undefined;
+    let frame = 0;
+    const onMove = (e) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect();
+        const clamp = (v) => Math.max(-limit, Math.min(limit, v));
+        const x = clamp((e.clientX - (r.left + r.width / 2)) * strength);
+        const y = clamp((e.clientY - (r.top + r.height / 2)) * strength);
+        el.style.translate = `${x.toFixed(1)}px ${y.toFixed(1)}px`;
+      });
+    };
+    const onLeave = () => {
+      cancelAnimationFrame(frame);
+      el.style.translate = "0px 0px";
+    };
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerleave", onLeave);
+    return () => {
+      cancelAnimationFrame(frame);
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", onLeave);
+    };
+  }, [strength, limit]);
+  return ref;
+}
+
 // Counts from 0 to `target` once `start` turns true. Returns the target immediately
 // when motion is reduced, so the real number is always what's shown at rest.
 export function useCountUp(target, start, duration = 1400) {
@@ -155,7 +188,9 @@ export function useScrollReveal() {
           const delay = el.getAttribute("data-aos-delay");
           if (delay) el.style.setProperty("--aos-delay", `${delay}ms`);
           settle(el);
-          el.classList.add("is-revealed");
+          // `was-revealed` stays after the entrance, so children can run their
+          // own one-off animations off it (e.g. skill chips popping in).
+          el.classList.add("is-revealed", "was-revealed");
         }
       },
       { rootMargin: "0px 0px -40px 0px" },

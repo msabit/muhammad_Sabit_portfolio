@@ -12,9 +12,11 @@ function trackErrors(page) {
 
 test("ships pre-rendered HTML", async ({ request }) => {
   const html = await (await request.get("")).text();
-  expect(html).toContain("Muhammad Sabit");
-  expect(html).toContain("Five teams, one craft.");
-  expect(html).toContain("Apps I&#x27;ve built and shipped.");
+  // Headings are split into per-word spans, so compare the text with tags removed.
+  const text = html.replace(/<[^>]+>/g, "").replace(/&#x27;/g, "'");
+  expect(text).toContain("Muhammad Sabit");
+  expect(text).toContain("Five teams, one craft.");
+  expect(text).toContain("Apps I've built and shipped.");
 });
 
 test("hydrates without errors and shows every section", async ({ page }) => {

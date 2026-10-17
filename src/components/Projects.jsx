@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowTopRightOnSquareIcon, LockClosedIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { monogram, projects, projectGroups } from "../data/portfolio";
 import { readParam, withParam } from "../lib/filter";
-import { useInView } from "../hooks/useMotion";
+import { useInView, useTilt } from "../hooks/useMotion";
 import SectionHeading from "./ui/SectionHeading";
 
 const INITIAL_COUNT = 6;
@@ -91,8 +91,13 @@ function linkLabel(href) {
 
 function ProjectCard({ project, index }) {
   const live = Boolean(project.href);
+  const tiltRef = useTilt(5);
   return (
-    <li className="glass glass-interactive group relative flex flex-col overflow-hidden" style={{ "--i": index }}>
+    <li
+      ref={tiltRef}
+      className="tilt-card glass glass-interactive group relative flex flex-col overflow-hidden"
+      style={{ "--i": index }}
+    >
       <div className="relative m-2 mb-0 aspect-[16/10] overflow-hidden" style={{ borderRadius: "calc(var(--radius-lg) - 0.5rem)" }}>
         <AppTile project={project} />
         <span

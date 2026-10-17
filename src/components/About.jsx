@@ -17,9 +17,33 @@ const facts = [
   { label: "Shipped", value: "15+ apps to the App Store & Play Store", phone: false },
 ];
 import SectionHeading from "./ui/SectionHeading";
+import { useTilt } from "../hooks/useMotion";
 import ProtectedImage from "./ui/ProtectedImage";
 
 const icons = [Squares2X2Icon, BoltIcon, ShieldCheckIcon, UserGroupIcon];
+
+function StrengthCard({ strength, icon, index }) {
+  const Icon = icon;
+  const tiltRef = useTilt(5);
+  return (
+    <li
+      ref={tiltRef}
+      className="tilt-card glass glass-interactive flex flex-col gap-3 p-4 sm:p-6"
+      data-aos="fade-up"
+      data-aos-delay={index * 60}
+    >
+      <span
+        className="flex h-10 w-10 items-center justify-center border border-line-strong text-accent"
+        style={{ borderRadius: "var(--radius-sm)", background: "var(--glass-2)" }}
+        aria-hidden="true"
+      >
+        <Icon className="h-5 w-5" />
+      </span>
+      <h3 className="font-display text-base font-bold leading-snug sm:text-lg">{strength.title}</h3>
+      <p className="text-base leading-relaxed text-muted max-sm:hidden">{strength.text}</p>
+    </li>
+  );
+}
 
 export default function About() {
   return (
@@ -74,22 +98,9 @@ export default function About() {
           </div>
 
           <ul className="grid grid-cols-2 gap-3 sm:gap-4" aria-label="Technical strengths">
-            {about.strengths.map((s, i) => {
-              const Icon = icons[i % icons.length];
-              return (
-                <li key={s.title} className="glass glass-interactive flex flex-col gap-3 p-4 sm:p-6" data-aos="fade-up" data-aos-delay={i * 60}>
-                  <span
-                    className="flex h-10 w-10 items-center justify-center border border-line-strong text-accent"
-                    style={{ borderRadius: "var(--radius-sm)", background: "var(--glass-2)" }}
-                    aria-hidden="true"
-                  >
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="font-display text-base font-bold leading-snug sm:text-lg">{s.title}</h3>
-                  <p className="text-base leading-relaxed text-muted max-sm:hidden">{s.text}</p>
-                </li>
-              );
-            })}
+            {about.strengths.map((s, i) => (
+              <StrengthCard key={s.title} strength={s} icon={icons[i % icons.length]} index={i} />
+            ))}
           </ul>
         </div>
       </div>

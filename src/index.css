@@ -28,6 +28,13 @@
     --ambient-3: 34 211 238; /* cyan   */
     --ambient-4: 236 72 153; /* pink   */
     --ambient-5: 20 184 166; /* teal   */
+    /* Second palette the background shifts into as you scroll down the page. */
+    --alt-1: 20 184 166; /* teal  */
+    --alt-2: 34 211 238; /* cyan  */
+    --alt-3: 244 63 94; /* rose  */
+    --alt-4: 251 146 60; /* amber */
+    --aurora-boost: 1.15;
+    --grain: 0.07;
 
     /* Text */
     --ink: #eef1f8;
@@ -99,6 +106,12 @@
     --ambient-3: 56 189 248;
     --ambient-4: 244 114 182;
     --ambient-5: 45 212 191;
+    --alt-1: 45 212 191;
+    --alt-2: 56 189 248;
+    --alt-3: 251 113 133;
+    --alt-4: 251 191 36;
+    --aurora-boost: 0.95;
+    --grain: 0.05;
     --ribbon: 0.45;
     --ink: #0d1324;
     --ink-soft: #2c3550;
@@ -286,8 +299,30 @@
   /* Buttons */
   .btn-base {
     @apply inline-flex min-h-[44px] select-none items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold;
+    position: relative;
+    overflow: hidden;
     transition: --fill var(--dur-fast) ease, background-color var(--dur-fast) ease,
       border-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-fast) ease;
+  }
+  /* A band of light sweeps across the button on hover. */
+  .btn-base::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      110deg,
+      transparent 30%,
+      rgb(255 255 255 / 0.32) 48%,
+      rgb(255 255 255 / 0.08) 56%,
+      transparent 70%
+    );
+    transform: translateX(-130%);
+    transition: transform 700ms var(--ease-out);
+    pointer-events: none;
+  }
+  .btn-base:hover::before {
+    transform: translateX(130%);
   }
   .btn-base:active {
     transform: scale(0.97);
@@ -425,7 +460,11 @@
   width: var(--size);
   height: var(--size);
   border-radius: 9999px;
-  background: radial-gradient(circle at center, rgb(var(--c) / var(--a)) 0%, rgb(var(--c) / 0) 68%);
+  background: radial-gradient(
+    circle at center,
+    rgb(var(--c) / calc(var(--a) * var(--aurora-boost, 1))) 0%,
+    rgb(var(--c) / 0) 68%
+  );
   will-change: transform, opacity;
   animation: var(--path) var(--dur-path) ease-in-out infinite,
     breathe var(--dur-breathe) ease-in-out infinite;
@@ -434,7 +473,7 @@
 
 .aurora > span:nth-child(1) {
   --c: var(--ambient-1);
-  --a: 0.55;
+  --a: 0.62;
   --size: 52rem;
   --path: orbit-a;
   --dur-path: 34s;
@@ -445,7 +484,7 @@
 }
 .aurora > span:nth-child(2) {
   --c: var(--ambient-2);
-  --a: 0.5;
+  --a: 0.58;
   --size: 46rem;
   --path: orbit-b;
   --dur-path: 41s;
@@ -456,7 +495,7 @@
 }
 .aurora > span:nth-child(3) {
   --c: var(--ambient-3);
-  --a: 0.32;
+  --a: 0.4;
   --size: 40rem;
   --path: orbit-c;
   --dur-path: 37s;
@@ -467,7 +506,7 @@
 }
 .aurora > span:nth-child(4) {
   --c: var(--ambient-4);
-  --a: 0.28;
+  --a: 0.34;
   --size: 34rem;
   --path: orbit-b;
   --dur-path: 47s;
@@ -478,7 +517,7 @@
 }
 .aurora > span:nth-child(5) {
   --c: var(--ambient-5);
-  --a: 0.3;
+  --a: 0.38;
   --size: 30rem;
   --path: orbit-a;
   --dur-path: 39s;
@@ -486,6 +525,48 @@
   --delay: -31s;
   top: 4%;
   right: 22%;
+}
+
+/* Scroll palette shift: the indigo/violet aurora gives way to a teal, cyan,
+   rose and amber one further down. Only the two layers' opacity follows
+   --scroll (set by usePageMotion), so it stays on the compositor. */
+.aurora:not(.aurora-alt) {
+  opacity: calc(1 - var(--scroll, 0) * 0.6);
+}
+.aurora-alt {
+  opacity: clamp(0, calc(var(--scroll, 0) * 1.5 - 0.1), 1);
+}
+.aurora-alt::before {
+  display: none;
+}
+.aurora-alt > span:nth-child(1) {
+  --c: var(--alt-1);
+  --delay: -14s;
+}
+.aurora-alt > span:nth-child(2) {
+  --c: var(--alt-2);
+  --delay: -27s;
+}
+.aurora-alt > span:nth-child(3) {
+  --c: var(--alt-3);
+  --a: 0.3;
+  --delay: -5s;
+}
+.aurora-alt > span:nth-child(4) {
+  --c: var(--alt-4);
+  --a: 0.26;
+  --delay: -36s;
+}
+
+/* Film grain: a static noise texture that gives the gradients some tooth. */
+.ambient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: var(--grain, 0.06);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  pointer-events: none;
 }
 
 /* A wide, faint ribbon of all five hues turning very slowly. */
@@ -693,6 +774,35 @@
   display: block;
 }
 
+/* Split headings (SectionHeading): each word sits in its own mask. */
+.split-words .word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.split-words .word > span {
+  display: inline-block;
+}
+
+/* Cards that tilt toward the pointer (useTilt writes --rx/--ry); the hover lift
+   joins the same transform so the two never fight. */
+.tilt-card {
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+}
+.glass-interactive.tilt-card:hover,
+.glass-interactive.tilt-card:focus-within {
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-3px);
+}
+
+/* Magnetic CTAs (useMagnetic sets `translate`). */
+.magnetic {
+  transition-property: translate, background-color, border-color, color, transform, --fill;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-out);
+}
+
 /* Hero portrait tilts toward the pointer (values written by useTilt). */
 .tilt {
   transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
@@ -786,6 +896,38 @@ a:hover > .nudge-down {
     animation: rise 1100ms var(--ease-soft) 250ms forwards;
   }
 
+  .js .split-words .word > span {
+    transition: transform 850ms var(--ease-out);
+    transition-delay: calc(var(--w, 0) * 70ms);
+  }
+  .js .split-words:not(.is-in) .word > span {
+    transform: translateY(110%);
+  }
+
+  /* A single sweep of light across the name once the hero has settled. */
+  .js .shimmer-text {
+    background: linear-gradient(
+      110deg,
+      var(--ink) 38%,
+      var(--accent) 47%,
+      rgb(var(--ambient-3)) 50%,
+      var(--accent) 53%,
+      var(--ink) 62%
+    );
+    background-size: 300% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 2.2s var(--ease-in-out) 1.4s 1 forwards;
+  }
+
+  /* Skill chips pop in one after another once their card has been revealed. */
+  .js .was-revealed .chip {
+    animation: chip-pop 520ms var(--ease-out) backwards;
+    animation-delay: calc(var(--c-i, 0) * 45ms + 150ms);
+  }
+
   .float-a {
     animation: float 7s ease-in-out infinite;
   }
@@ -804,6 +946,17 @@ a:hover > .nudge-down {
   }
 }
 
+@keyframes chip-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.85);
+  }
+}
+@keyframes shimmer {
+  to {
+    background-position: 0% 0;
+  }
+}
 @keyframes rise {
   to {
     opacity: 1;
