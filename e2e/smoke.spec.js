@@ -105,3 +105,29 @@ test("portrait photos resist casual saving", async ({ page }) => {
   // The pointer lands on a cover layer, never the <img>, and the menu is cancelled.
   expect(result).toEqual({ imageUnderPointer: false, menuBlocked: true, pointerEvents: "none" });
 });
+
+// The production build minifies theme colours to hex; the canvas lens must still
+// draw in the theme's accent (blue), never misread digits (red/green).
+for (const theme of ["dark", "light"]) {
+  test(`background grid lens uses the ${theme} theme colour`, async ({ page, isMobile }) => {
+    test.skip(isMobile, "the lens only runs with a mouse");
+    await page.addInitScript((t) => localStorage.setItem("theme", t), theme);
+    await page.goto("");
+    for (const [x, y] of [[300, 500], [500, 520], [640, 540]]) {
+      await page.mouse.move(x, y);
+      await page.waitForTimeout(80);
+    }
+    await page.waitForTimeout(900);
+    const avg = await page.locator(".grid-canvas").evaluate((c) => {
+      const d = c.getContext("2d").getImageData(0, 0, c.width, c.height).data;
+      let r = 0, g = 0, b = 0, n = 0;
+      for (let i = 0; i < d.length; i += 4) {
+        if (d[i + 3] > 40) { r += d[i]; g += d[i + 1]; b += d[i + 2]; n++; }
+      }
+      return n ? { r: r / n, g: g / n, b: b / n, n } : { n: 0 };
+    });
+    expect(avg.n).toBeGreaterThan(500);
+    expect(avg.b).toBeGreaterThan(avg.r + 40);
+    expect(avg.b).toBeGreaterThan(avg.g + 40);
+  });
+}

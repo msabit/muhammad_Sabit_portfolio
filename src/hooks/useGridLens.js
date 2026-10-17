@@ -1,16 +1,16 @@
 import { useEffect } from "react";
-import { lensPoint } from "../lib/gridLens";
+import { lensPoint, parseColor } from "../lib/gridLens";
 import { prefersReducedMotion } from "./useMotion";
 
 const RADIUS = 230; // px of grid affected around the pointer
 const STRENGTH = 0.15; // how far points spread at the dome's centre (kept subtle)
 const EASE = 0.16; // share of the gap closed per frame when following the pointer
 
-// Parses "rgb(r g b / a)" or "rgba(r, g, b, a)" into numbers.
-function parseColor(value) {
-  const n = (value.match(/[\d.]+/g) || []).map(Number);
-  return { r: n[0] ?? 0, g: n[1] ?? 0, b: n[2] ?? 0, a: n[3] ?? 1 };
-}
+// Used only if a theme variable can't be read (keeps the accent hue, never red).
+const FALLBACK = {
+  dark: { line: { r: 154, g: 171, b: 255, a: 0.4 }, dot: { r: 190, g: 200, b: 255, a: 0.75 } },
+  light: { line: { r: 64, g: 82, b: 218, a: 0.3 }, dot: { r: 64, g: 82, b: 218, a: 0.7 } },
+};
 const rgba = (c, a) => `rgba(${c.r},${c.g},${c.b},${a.toFixed(3)})`;
 
 // Draws the active part of the background grid as a 3D dome that follows the
@@ -45,10 +45,13 @@ export function useGridLens() {
     let colors;
     const readColors = () => {
       const cs = getComputedStyle(document.documentElement);
+      const dark = document.documentElement.getAttribute("data-theme") !== "light";
+      const fallback = dark ? FALLBACK.dark : FALLBACK.light;
       colors = {
-        line: parseColor(cs.getPropertyValue("--grid-line")),
-        dot: parseColor(cs.getPropertyValue("--grid-dot-active")),
-        dark: document.documentElement.getAttribute("data-theme") !== "light",
+        // Minified CSS stores these as hex (#9aabff66); parseColor reads both forms.
+        line: parseColor(cs.getPropertyValue("--grid-line")) ?? fallback.line,
+        dot: parseColor(cs.getPropertyValue("--grid-dot-active")) ?? fallback.dot,
+        dark,
         cell: parseFloat(cs.getPropertyValue("--cell")) || 36,
       };
     };

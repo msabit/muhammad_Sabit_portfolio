@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { falloff, lensPoint } from "./gridLens";
+import { falloff, lensPoint, parseColor } from "./gridLens";
 
 describe("falloff", () => {
   it("is 1 at the centre, 0 at and beyond the radius, and smooth between", () => {
@@ -33,5 +33,29 @@ describe("lensPoint", () => {
 
   it("scales the effect by the given power (0 = flat)", () => {
     expect(lensPoint(560, 300, c.x, c.y, 200, 0.4, 0)).toEqual({ x: 560, y: 300, z: 0 });
+  });
+});
+
+describe("parseColor", () => {
+  // Production CSS is minified, which rewrites rgb() into hex; dev keeps rgb().
+  it.each([
+    ["#9aabff66", { r: 154, g: 171, b: 255, a: 0.4 }],
+    ["#4052da4d", { r: 64, g: 82, b: 218, a: 0.302 }],
+    ["#4052da", { r: 64, g: 82, b: 218, a: 1 }],
+    ["#fff", { r: 255, g: 255, b: 255, a: 1 }],
+    ["#fff8", { r: 255, g: 255, b: 255, a: 0.533 }],
+    ["rgb(154 171 255 / 0.4)", { r: 154, g: 171, b: 255, a: 0.4 }],
+    ["rgb(154 171 255 / 40%)", { r: 154, g: 171, b: 255, a: 0.4 }],
+    ["rgba(64, 82, 218, 0.3)", { r: 64, g: 82, b: 218, a: 0.3 }],
+    ["rgb(64, 82, 218)", { r: 64, g: 82, b: 218, a: 1 }],
+    ["  #BEC8FFBF ", { r: 190, g: 200, b: 255, a: 0.749 }],
+  ])("parses %s", (input, expected) => {
+    expect(parseColor(input)).toEqual(expected);
+  });
+
+  it("returns null for anything it can't read, so callers can fall back", () => {
+    expect(parseColor("")).toBeNull();
+    expect(parseColor("var(--x)")).toBeNull();
+    expect(parseColor("#12")).toBeNull();
   });
 });
