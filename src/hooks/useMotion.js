@@ -87,8 +87,9 @@ export function useCountUp(target, start, duration = 1400) {
   return value;
 }
 
-// Page-wide effects that don't belong to one component: the scroll progress bar
-// and the pointer spotlight on interactive glass cards. Both write CSS variables.
+// Page-wide effects that don't belong to one component: the scroll progress bar,
+// the pointer spotlight on interactive glass cards, and the background grid
+// reveal that trails the pointer. All of them write CSS variables, never state.
 export function usePageMotion() {
   useEffect(() => {
     const root = document.documentElement;
@@ -104,7 +105,34 @@ export function usePageMotion() {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
 
+    // Grid reveal eases toward the pointer (about 18% of the gap per frame) and the
+    // loop stops once it has caught up, so nothing runs while the mouse is still.
+    const ambient = document.querySelector(".ambient");
+    const target = { x: 0, y: 0 };
+    const pos = { x: 0, y: 0 };
+    let trail = 0;
+    let started = false;
+    const follow = () => {
+      pos.x += (target.x - pos.x) * 0.18;
+      pos.y += (target.y - pos.y) * 0.18;
+      ambient.style.setProperty("--gx", `${pos.x.toFixed(1)}px`);
+      ambient.style.setProperty("--gy", `${pos.y.toFixed(1)}px`);
+      trail = Math.hypot(target.x - pos.x, target.y - pos.y) > 0.5 ? requestAnimationFrame(follow) : 0;
+    };
+
     const onPointer = (e) => {
+      target.x = e.clientX;
+      target.y = e.clientY;
+      if (ambient) {
+        if (!started) {
+          started = true;
+          pos.x = target.x;
+          pos.y = target.y;
+          ambient.classList.add("has-pointer");
+        }
+        if (!trail) trail = requestAnimationFrame(follow);
+      }
+
       const card = e.target instanceof Element && e.target.closest(".glass-interactive");
       if (!card) return;
       const r = card.getBoundingClientRect();
@@ -116,6 +144,7 @@ export function usePageMotion() {
 
     return () => {
       cancelAnimationFrame(frame);
+      cancelAnimationFrame(trail);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       if (spotlight) document.removeEventListener("pointermove", onPointer);

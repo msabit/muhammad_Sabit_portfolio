@@ -36,6 +36,12 @@ export default function App() {
           <span />
           <span />
         </div>
+        <div className="grid-field">
+          <div className="grid-dots" />
+        </div>
+        <div className="grid-field grid-reveal-wrap">
+          <div className="grid-reveal" />
+        </div>
       </div>
       <a
         href="#main"

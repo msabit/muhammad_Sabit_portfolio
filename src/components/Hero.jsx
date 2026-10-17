@@ -4,6 +4,7 @@ import photoSmall from "../assets/Sabit-480.webp";
 import ResumePDF from "../assets/MuhammadSabit_Resume.pdf";
 import { profile, socialLinks } from "../data/portfolio";
 import SocialIcon from "./ui/SocialIcon";
+import ProtectedImage from "./ui/ProtectedImage";
 import { useTilt } from "../hooks/useMotion";
 
 export default function Hero() {
@@ -65,7 +66,7 @@ export default function Hero() {
         <div className="relative mx-auto w-full max-w-sm lg:max-w-md" data-settle>
           <div ref={tiltRef} className="tilt glass-strong relative p-3">
             <div className="overflow-hidden" style={{ borderRadius: "calc(var(--radius-lg) - 0.5rem)" }}>
-              <img
+              <ProtectedImage
                 src={photo}
                 srcSet={`${photoSmall} 480w, ${photo} 768w`}
                 sizes="(min-width: 1024px) 26rem, (min-width: 640px) 24rem, calc(100vw - 4rem)"

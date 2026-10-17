@@ -16,6 +16,7 @@ const facts = [
   { label: "Shipped", value: "15+ apps to the App Store & Play Store" },
 ];
 import SectionHeading from "./ui/SectionHeading";
+import ProtectedImage from "./ui/ProtectedImage";
 
 const icons = [Squares2X2Icon, BoltIcon, ShieldCheckIcon, UserGroupIcon];
 
@@ -26,7 +27,8 @@ export default function About() {
         <div className="relative mx-auto w-full max-w-md lg:sticky lg:top-28 lg:self-start" data-aos="fade-right">
           <div className="glass flex flex-col gap-6 p-6 sm:p-8">
             <div className="flex items-center gap-4">
-              <img
+              <ProtectedImage
+                wrapperClassName="relative block shrink-0"
                 src={avatar}
                 alt=""
                 width={576}

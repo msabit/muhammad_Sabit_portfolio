@@ -82,3 +82,26 @@ test.describe("without JavaScript", () => {
     expect(hidden).toBe(0);
   });
 });
+
+test("portrait photos resist casual saving", async ({ page }) => {
+  await page.goto("");
+  const photo = page.locator(".protected-image img").first();
+  await photo.scrollIntoViewIfNeeded();
+  await expect(photo).toBeVisible();
+  await expect(photo).toHaveAttribute("draggable", "false");
+
+  const result = await photo.evaluate((img) => {
+    const r = img.getBoundingClientRect();
+    const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    const menu = new MouseEvent("contextmenu", { bubbles: true, cancelable: true });
+    top.dispatchEvent(menu);
+    const cs = getComputedStyle(img);
+    return {
+      imageUnderPointer: top === img,
+      menuBlocked: menu.defaultPrevented,
+      pointerEvents: cs.pointerEvents,
+    };
+  });
+  // The pointer lands on a cover layer, never the <img>, and the menu is cancelled.
+  expect(result).toEqual({ imageUnderPointer: false, menuBlocked: true, pointerEvents: "none" });
+});
