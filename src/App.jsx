@@ -9,10 +9,12 @@ import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { usePageMotion, useScrollReveal } from "./hooks/useMotion";
+import { useGridLens } from "./hooks/useGridLens";
 
 export default function App() {
   usePageMotion();
   useScrollReveal();
+  useGridLens();
   useEffect(() => {
     // Land #hash links on their section: once now, and again after the web fonts
     // swap in, since that reflows the text above the target.
@@ -42,6 +44,7 @@ export default function App() {
         <div className="grid-field grid-reveal-wrap">
           <div className="grid-reveal" />
         </div>
+        <canvas className="grid-canvas" />
       </div>
       <a
         href="#main"

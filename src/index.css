@@ -509,8 +509,15 @@
   background-size: var(--cell) var(--cell);
   animation: grid-drift 28s linear infinite;
 }
-.ambient.has-pointer .grid-reveal-wrap {
-  --reveal: 360px;
+/* Desktop: the 3D lens (useGridLens) draws the active grid on a canvas, so the
+   flat CSS reveal steps aside once the pointer is in play. */
+.grid-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.ambient.has-lens .grid-reveal-wrap {
+  display: none;
 }
 @keyframes grid-drift {
   to {
